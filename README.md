@@ -27,9 +27,6 @@ Originally created by **Floraline** (MPL 2.0). Ported to TBC Classic Anniversary
 
 ## Screenshots
 
-### Shaman — Totem Bars with Timers
-![Shaman Totem Timers](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/shaman-totem-timers.png)
-
 ### Shaman — Totem Bar
 ![Shaman Totem Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/shaman-totem-bar.png)
 
