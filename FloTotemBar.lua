@@ -6,7 +6,7 @@
 -- Constants
 -------------------------------------------------------------------------------
 
-local VERSION = "1.0.0-TBC"
+local VERSION = "1.1.0"
 
 -------------------------------------------------------------------------------
 -- Variables
@@ -330,7 +330,10 @@ function FloTotemBar_UpdateTotem(self, slot, idx)
 
 	if self.slot == slot then
 		local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(slot);
-		local timeleft = GetTotemTimeLeft(slot);
+		local timeleft = GetTotemTimeLeft and GetTotemTimeLeft(slot) or 0;
+		if not GetTotemTimeLeft and haveTotem and startTime > 0 and duration > 0 then
+			timeleft = math.max(0, duration - (GetTime() - startTime));
+		end
 		local countdown = _G[self:GetName().."Countdown"..idx];
 		if countdown then
 			countdown:SetMinMaxValues(0, duration);

@@ -1,4 +1,4 @@
-## Interface: 20505
+## Interface: 11508
 ## Title: FloTotemBar
 ## Author: paradosi-Dreamscythe
 ## Notes: Totem, trap, and seal bars with timers. Originally by Floraline.

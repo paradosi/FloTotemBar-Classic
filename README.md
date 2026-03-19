@@ -4,9 +4,11 @@
 
 <h1 align="center">FloTotemBar — TBC Classic Anniversary</h1>
 
-Totem, trap, and seal bar addon for **WoW TBC Classic Anniversary** (Interface 20505). Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
+Totem, trap, and seal bar addon for **WoW Classic Era** and **TBC Classic Anniversary**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
 
-Originally created by **Floraline** (MPL 2.0). Ported to TBC Classic Anniversary by **paradosi-Dreamscythe**.
+Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-Dreamscythe**.
+
+![Classic Era: 11508](https://img.shields.io/badge/Classic_Era-11508-yellow) ![TBC Anniversary: 20505](https://img.shields.io/badge/TBC_Anniversary-20505-blue)
 
 ## Features
 
@@ -54,14 +56,25 @@ Originally created by **Floraline** (MPL 2.0). Ported to TBC Classic Anniversary
 
 ## Installation
 
-1. Download and extract to `World of Warcraft/_anniversary_/Interface/AddOns/FloTotemBar/`
+1. Download and extract to your AddOns folder:
+
+   | Version | AddOns Path | TOC File |
+   |---------|-------------|----------|
+   | Classic Era | `_classic_era_/Interface/AddOns/FloTotemBar/` | `FloTotemBar_Vanilla.toc` |
+   | TBC Anniversary | `_anniversary_/Interface/AddOns/FloTotemBar/` | `FloTotemBar.toc` |
+
 2. Log in on a Shaman, Hunter, or Paladin character
 3. The bar appears automatically above your action bars
+4. TBC-only spells (Snake Trap, Totem of Wrath, Wrath of Air, Seal of Blood/Vengeance) only appear on TBC clients
 
 ## Optional Dependencies
 
 - **[FloAspectBar](https://github.com/paradosi/FloAspectBar_TBC)** — Hunter aspect bar (shared FloLib library)
 - **ButtonFacade** — Button skinning support
+
+## Compatibility
+
+This addon is designed for **Classic Era** and **TBC Classic** only. It does not support Retail WoW — the game mechanics it relies on (element-specific totem slots, Paladin seals, old trap system) were removed in later expansions.
 
 ## License
 
