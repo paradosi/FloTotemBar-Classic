@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/art/tauren_totem_400x400.png" width="200" alt="FloTotemBar">
+  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/tauren_totem_400x400.png" width="200" alt="FloTotemBar">
 </p>
 
 <h1 align="center">FloTotemBar — TBC Classic Anniversary</h1>
@@ -30,16 +30,16 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 ## Screenshots
 
 ### Shaman — Totem Bar
-![Shaman Totem Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/shaman-totem-bar.png)
+![Shaman Totem Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/shaman-totem-bar.png)
 
 ### Hunter — Trap Bar
-![Hunter Trap Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/hunter-trap-bar.png)
+![Hunter Trap Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/hunter-trap-bar.png)
 
 ### Paladin — Seal Bar
-![Paladin Seal Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/paladin-seal-bar.png)
+![Paladin Seal Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/paladin-seal-bar.png)
 
 ### Context Menu
-![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar_TBC/main/media/screenshots/context-menu.png)
+![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/context-menu.png)
 
 ## Slash Commands
 
