@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/tauren_totem_400x400.png" width="200" alt="FloTotemBar">
 </p>
 
-<h1 align="center">FloTotemBar — TBC Classic Anniversary</h1>
+<h1 align="center">FloTotemBar — Classic</h1>
 
 Totem, trap, and seal bar addon for **WoW Classic Era** and **TBC Classic Anniversary**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
 
