@@ -26,6 +26,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 8181, duration = 120 },  -- Frost Resistance Totem
 			{ id = 8190, duration = 20 },   -- Magma Totem
 			{ id = 8227, duration = 120 },  -- Flametongue Totem
+			{ id = 30706, duration = 120 }, -- Totem of Wrath (TBC, Elemental talent)
 		},
 		["WATER"] = {
 			{ id = 5394, duration = 60 },   -- Healing Stream Totem
