@@ -466,10 +466,10 @@ function FloTotemBar_UpdatePosition(self)
 		else
 			anchorFrame = MainMenuBar;
 
-			if MultiBar1_IsVisible() then
+			if MultiBarBottomLeft and MultiBarBottomLeft:IsShown() then
 				yOffset = yOffset + 50;
 			end
-			if MultiBar2_IsVisible() then
+			if MultiBarBottomRight and MultiBarBottomRight:IsShown() then
 				yOffset = yOffset + 50;
 			end
 		end
