@@ -19,6 +19,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 5730, duration = 15 },   -- Stoneclaw Totem
 			{ id = 8075, duration = 120 },  -- Strength of Earth Totem
 			{ id = 8143, duration = 120 },  -- Tremor Totem
+			{ id = 2062, duration = 120 },  -- Earth Elemental Totem
 		},
 		["FIRE"] = {
 			{ id = 3599, duration = 30 },   -- Searing Totem
@@ -27,6 +28,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 8190, duration = 20 },   -- Magma Totem
 			{ id = 8227, duration = 120 },  -- Flametongue Totem
 			{ id = 30706, duration = 120 }, -- Totem of Wrath (TBC, Elemental talent)
+			{ id = 2894, duration = 120 },  -- Fire Elemental Totem
 		},
 		["WATER"] = {
 			{ id = 5394, duration = 60 },   -- Healing Stream Totem
