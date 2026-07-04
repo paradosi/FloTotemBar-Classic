@@ -6,5 +6,6 @@ ignore:
   - CHANGES.txt
   - .github
   - .gitignore
+  - .luacheckrc
   - media/art
   - media/screenshots
