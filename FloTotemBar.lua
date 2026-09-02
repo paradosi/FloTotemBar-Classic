@@ -6,6 +6,9 @@
 -- Constants
 -------------------------------------------------------------------------------
 
+-- Printed in the login banner. NOT read from the TOC -- bump it here AND in
+-- both .toc files on every release. This drifted once already (fixed in
+-- bc025dd) and FloAspectBar's equivalent drifted for two releases.
 local VERSION = "1.2.2"
 
 -------------------------------------------------------------------------------
@@ -32,6 +35,9 @@ local ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[1];
 -- Ugly
 local changingSpec = true;
 
+-- TBC and Classic Era have no dual spec, so there is exactly one talent group
+-- and this always returns 1. It shadows the retail API of the same name on
+-- purpose, so the spec-switching paths below can stay unmodified from upstream.
 local GetSpecialization = function()
 	return 1
 end
