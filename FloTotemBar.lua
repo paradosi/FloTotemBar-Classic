@@ -681,10 +681,3 @@ function FloTotemBar_TimerRed(self, school)
 
 end
 
-function FloTotemBar_OnEnter(self)
-	FloLib_Button_SetTooltip(self);
-end
-
-function FloTotemBar_OnLeave(self)
-	GameTooltip:Hide();
-end

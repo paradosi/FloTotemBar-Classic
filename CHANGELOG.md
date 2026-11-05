@@ -17,6 +17,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **"Lock Action Bars" was ignored**: spells could be dragged off the bar without Shift. The bar now honours the setting and the pick-up modifier, like Blizzard's action bars.
 
 ### Changed
+- Removed unused code and translations
 - Trap and seal timers use `C_CombatLog` instead of the deprecated combat-log functions, so they keep working with `loadDeprecationFallbacks` off and after Blizzard removes the fallbacks.
 - FloLib 1.46: buff checks use `C_UnitAuras`; unused glyph and talent helpers removed.
 

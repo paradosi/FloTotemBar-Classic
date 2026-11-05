@@ -61,8 +61,6 @@ FLO_TOTEM_2ROWS_REVERSE = "2 Rows - Upwards";
 FLO_TOTEM_4ROWS_REVERSE = "4 Rows - Upwards";
 
 -- Tooltips
-FLO_TOTEM_ADD_CALL_TOOLTIP = "<Left-Click to Add this Totem to %s>";
-FLO_TOTEM_REMOVE_CALL_TOOLTIP = "<Alt-Click to Remove this Totem from %s>";
 
 -------------------------------------------------------------------------------
 -- French localization
@@ -125,8 +123,6 @@ FLO_TOTEM_2ROWS_REVERSE = "2 lignes - vers le haut";
 FLO_TOTEM_4ROWS_REVERSE = "4 lignes - vers le haut";
 
 -- Tooltips
-FLO_TOTEM_ADD_CALL_TOOLTIP = "<Clic gauche pour ajouter ce totem à l'%s>";
-FLO_TOTEM_REMOVE_CALL_TOOLTIP = "<Alt + Clic gauche pour enlever ce totem de l'%s>";
 
 end
 
