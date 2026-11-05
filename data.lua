@@ -25,18 +25,18 @@ FLO_TOTEM_SPELLS = {
 			{ id = 3599, duration = 30 },   -- Searing Totem
 			{ id = 1535, duration = 5 },    -- Fire Nova Totem
 			{ id = 8181, duration = 120 },  -- Frost Resistance Totem
-			{ id = 8190, duration = 20 },   -- Magma Totem
+			{ id = 8190, duration = 21 },   -- Magma Totem (Era: 20)
 			{ id = 8227, duration = 120 },  -- Flametongue Totem
 			{ id = 30706, duration = 120 }, -- Totem of Wrath (TBC, Elemental talent)
 			{ id = 2894, duration = 120 },  -- Fire Elemental Totem
 		},
 		["WATER"] = {
-			{ id = 5394, duration = 60 },   -- Healing Stream Totem
+			{ id = 5394, duration = 120 },  -- Healing Stream Totem (Era: 60)
 			{ id = 8166, duration = 120 },  -- Poison Cleansing Totem
-			{ id = 5675, duration = 60 },   -- Mana Spring Totem
+			{ id = 5675, duration = 120 },  -- Mana Spring Totem (Era: 60)
 			{ id = 8184, duration = 120 },  -- Fire Resistance Totem
 			{ id = 8170, duration = 120 },  -- Disease Cleansing Totem
-			{ id = 16190, duration = 12 },  -- Mana Tide Totem
+			{ id = 16190, duration = 13 },  -- Mana Tide Totem
 		},
 		["AIR"] = {
 			{ id = 8177, duration = 45 },   -- Grounding Totem

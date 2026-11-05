@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - **`/ftb scale` only resized the Trap and Earth bars.** It now applies to every bar, including the Seal bar and the Fire, Water and Air totem bars, and the saved scale is applied to all of them at login.
 - **`/ftb lock`, `unlock` and `auto` did nothing for Paladins.** They now reach the Seal bar.
 - **Dragging a hidden spell from the spellbook onto its bar caused a Lua error.** It is now ignored.
+- **Healing Stream and Mana Spring timers started at 1 minute on TBC**, where those totems last 2 minutes; Magma Totem (21 s) and Mana Tide Totem (13 s) were a second short. The starting values now match TBC Anniversary's spell data, and the timer still corrects itself from the game on both clients.
 - **"Lock Action Bars" was ignored**: spells could be dragged off the bar without Shift. The bar now honours the setting and the pick-up modifier, like Blizzard's action bars.
 
 ### Changed
