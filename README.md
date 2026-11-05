@@ -8,7 +8,7 @@ Totem, trap, and seal bar addon for **WoW Classic Era** and **TBC Classic Annive
 
 Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-Dreamscythe**.
 
-![Classic Era: 11508](https://img.shields.io/badge/Classic_Era-11508-yellow) ![TBC Anniversary: 20505](https://img.shields.io/badge/TBC_Anniversary-20505-blue)
+![Classic Era: 11509](https://img.shields.io/badge/Classic_Era-11509-yellow) ![TBC Anniversary: 20506](https://img.shields.io/badge/TBC_Anniversary-20506-blue)
 
 ## Features
 
@@ -18,7 +18,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 - **Click to cast** — Left-click any spell to cast it
 - **Cooldown & duration timers** — Visual countdown on active totems and trap cooldowns
 - **Multiple layout options** — Shamans can choose from various totem bar arrangements
-- **Keybinding support** — Bind keys via WoW's Key Bindings menu
+- **Keybinding support** — Bind keys via WoW's Key Bindings menu (Hunter traps and Paladin seals use the Earth bar's bindings)
 - **Drag to reorder** — Drag spells on/off bars to customize button order
 - **Position modes** — Automatic, locked, or unlocked (drag to move)
 - **Customizable background** — Color picker with opacity slider

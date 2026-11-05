@@ -9,7 +9,7 @@
 -- Printed in the login banner. NOT read from the TOC -- bump it here AND in
 -- both .toc files on every release. This drifted once already (fixed in
 -- bc025dd) and FloAspectBar's equivalent drifted for two releases.
-local VERSION = "1.2.3"
+local VERSION = "1.2.4"
 
 -------------------------------------------------------------------------------
 -- Variables
@@ -41,6 +41,17 @@ local changingSpec = true;
 local GetSpecialization = function()
 	return 1
 end
+
+-- Combat log API. The flat globals exist on TBC/Era only as Blizzard_Deprecated
+-- fallbacks (gone with loadDeprecationFallbacks=0, and slated for removal), so
+-- prefer C_CombatLog. COMBATLOG_FILTER_MINE is not deprecated: it moved to
+-- Blizzard_CombatLogBase, which loads at startup.
+local GetCurrentEventInfo = (C_CombatLog and C_CombatLog.GetCurrentEventInfo) or CombatLogGetCurrentEventInfo;
+local ObjectIsA = (C_CombatLog and C_CombatLog.DoesObjectMatchFilter) or CombatLog_Object_IsA;
+
+-- The primary bar of each class: lock/unlock/auto apply to these. Shaman
+-- FIRE/WATER/AIR follow FloBarEARTH through the layout.
+local PRIMARY_BARS = { "TRAP", "EARTH", "SEAL" };
 
 -------------------------------------------------------------------------------
 -- Functions
@@ -134,6 +145,12 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 	elseif event == "UNIT_SPELLCAST_SUCCEEDED" then
 		if arg1 == "player" then
 			FloLib_StartTimer(self, ...);
+			-- PLAYER_TOTEM_UPDATE can arrive before or after this event; read
+			-- the slot again so the timer takes the totem's real duration
+			-- whichever came first.
+			if self.slot and self.activeSpell1 then
+				FloTotemBar_UpdateTotem(self, self.slot, self.activeSpell1, true);
+			end
 		end
 
 	elseif event == "UNIT_SPELLCAST_INTERRUPTED" then
@@ -158,7 +175,8 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 		end
 
 		local totemtype = self.totemtype;
-		if totemtype == "TRAP" then totemtype = "EARTH" end
+		-- Hunters and Paladins have one bar, which uses the Earth bindings
+		if totemtype == "TRAP" or totemtype == "SEAL" then totemtype = "EARTH" end
 		FloLib_UpdateBindings(self, "FLOTOTEM"..totemtype);
 
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
@@ -171,7 +189,7 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 				pos = i
 			end
 			if self["activeSpell"..pos] and i == self["activeSpell"..pos] then
-				self.spells[i].algo(self, i, CombatLogGetCurrentEventInfo());
+				self.spells[i].algo(self, i, GetCurrentEventInfo());
 			end
 		end
 	elseif event == "PLAYER_TOTEM_UPDATE" then
@@ -299,8 +317,8 @@ function FloTotemBar_ReadCmd(line)
 	if cmd == "scale" and tonumber(var) then
 		FloTotemBar_SetScale(var);
 	elseif cmd == "lock" or cmd == "unlock" or cmd == "auto" then
-		for i, v in ipairs({FloBarTRAP, FloBarEARTH}) do
-			FloTotemBar_SetPosition(nil, v, cmd);
+		for _, k in ipairs(PRIMARY_BARS) do
+			FloTotemBar_SetPosition(nil, _G["FloBar"..k], cmd);
 		end
 	elseif cmd == "borders" then
 		FloTotemBar_SetBorders(nil, true);
@@ -332,23 +350,42 @@ function FloTotemBar_ReadCmd(line)
 	end
 end
 
-function FloTotemBar_UpdateTotem(self, slot, idx)
+-- Sync the bar's timer with the totem actually in the slot. Every bar has
+-- sharedCooldown set, so the only visible countdown is number 1, whichever
+-- button is active; writing to countdown idx (as this used to) left every
+-- totem but the first button on the hardcoded duration from data.lua.
+-- resync: called right after the cast, when the slot may still hold the
+-- previous totem -- never clear the timer then.
+function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 
-	if self.slot == slot then
-		local haveTotem, totemName, startTime, duration, icon = GetTotemInfo(slot);
-		local timeleft = GetTotemTimeLeft and GetTotemTimeLeft(slot) or 0;
-		if not GetTotemTimeLeft and haveTotem and startTime > 0 and duration > 0 then
-			timeleft = math.max(0, duration - (GetTime() - startTime));
-		end
-		local countdown = _G[self:GetName().."Countdown"..idx];
-		if countdown then
-			countdown:SetMinMaxValues(0, duration);
-			countdown:SetValue(timeleft);
-		end
-		if timeleft == 0 then
+	if self.slot ~= slot then
+		return;
+	end
+	local haveTotem, totemName, startTime, duration = GetTotemInfo(slot);
+	local spell = self.spells[idx];
+	-- An expired or destroyed totem can still report haveTotem with an empty
+	-- name, so treat no time left as an empty slot too (the old test).
+	local empty = not haveTotem or not totemName or totemName == "" or not duration or duration == 0
+		or (GetTotemTimeLeft and GetTotemTimeLeft(slot) == 0);
+	if empty then
+		if not resync then
 			FloLib_ResetTimer(self, idx);
 		end
+		return;
 	end
+	-- Totem names carry the rank ("Searing Totem VII"); only take the timing
+	-- when the slot holds this spell's totem. Anything else (another totem not
+	-- yet reported by UNIT_SPELLCAST_SUCCEEDED) leaves the timer alone.
+	if not (spell and spell.name and totemName and totemName:sub(1, #spell.name) == spell.name) then
+		return;
+	end
+	local pos = self.sharedCooldown and 1 or idx;
+	local countdown = _G[self:GetName().."Countdown"..pos];
+	self["startTime"..pos] = startTime;
+	if countdown then
+		countdown:SetMinMaxValues(0, duration);
+	end
+	FloLib_OnUpdate(self);
 end
 
 function FloTotemBar_CheckTrapLife(self, spellIdx, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId, spellName, ...)
@@ -362,7 +399,7 @@ function FloTotemBar_CheckTrapLife(self, spellIdx, timestamp, event, hideCaster,
 	if spellName == "Effet Piège immolation" then spellName = "Effet Piège d'immolation" end
 
 	if event ~= nil and strsub(event, 1, 5) == "SPELL" and event ~= "SPELL_CAST_SUCCESS" and event ~= "SPELL_CREATE" and (spell.texture == spellTexture or string.find(string.upper(spellName), name, 1, true)) and destGUID ~= "" then
-		if CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_MINE) then
+		if ObjectIsA(sourceFlags, COMBATLOG_FILTER_MINE) then
 			FloLib_ResetTimer(self, spellIdx);
 		else
 			FloTotemBar_TimerRed(self, spellIdx);
@@ -370,25 +407,8 @@ function FloTotemBar_CheckTrapLife(self, spellIdx, timestamp, event, hideCaster,
 	end
 end
 
--- For old Serpent Trap I think
-function FloTotemBar_CheckTrap2Life(self, spellIdx, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, ...)
-
-	local spell = self.spells[spellIdx];
-	local name = string.upper(spell.name);
-	local COMBATLOG_FILTER_MY_GUARDIAN = bit.bor(
-		COMBATLOG_OBJECT_AFFILIATION_MINE,
-		COMBATLOG_OBJECT_REACTION_FRIENDLY,
-		COMBATLOG_OBJECT_CONTROL_PLAYER,
-		COMBATLOG_OBJECT_TYPE_GUARDIAN
-		);
-
-	if event ~= nil and strsub(event, 1, 5) == "SWING" and CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_MY_GUARDIAN) then
-		FloLib_ResetTimer(self, spellIdx);
-	end
-end
-
 function FloTotemBar_UpdateSeal(self, spellIdx, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId, spellName, ...)
-	if event == "SPELL_AURA_REMOVED" and CombatLog_Object_IsA(sourceFlags, COMBATLOG_FILTER_MINE) then
+	if event == "SPELL_AURA_REMOVED" and ObjectIsA(sourceFlags, COMBATLOG_FILTER_MINE) then
 		local spell = self.spells[spellIdx];
 		if (spell.name == spellName) then
 			FloLib_ResetTimer(self, spellIdx);
@@ -605,19 +625,24 @@ function FloTotemBar_SetScale(scale)
 
 	scale = tonumber(scale);
 	if not scale or scale <= 0 then
-		DEFAULT_CHAT_FRAME:AddMessage( "FloTotemBar : scale must be >0 ("..scale..")" );
+		DEFAULT_CHAT_FRAME:AddMessage( "FloTotemBar : scale must be >0 ("..tostring(scale)..")" );
 		return;
 	end
 
 	local setPoints = ACTIVE_OPTIONS.scale ~= scale;
 	ACTIVE_OPTIONS.scale = scale;
 
-	for i, v in ipairs({FloBarTRAP, FloBarEARTH}) do
-		local p, a, rp, ox, oy = v:GetPoint();
-		local os = v:GetScale();
-		v:SetScale(scale);
-		if setPoints and p and (a == nil or a == UIParent or a == MainMenuBar) then
-			v:SetPoint(p, a, rp, ox*os/scale, oy*os/scale);
+	-- Every bar of the class, not only TRAP/EARTH: the Seal bar and the
+	-- Fire/Water/Air bars never scaled before.
+	for k in pairs(ACTIVE_OPTIONS.barSettings) do
+		local v = _G["FloBar"..k];
+		if v then
+			local p, a, rp, ox, oy = v:GetPoint();
+			local os = v:GetScale();
+			v:SetScale(scale);
+			if setPoints and p and (a == nil or a == UIParent or a == MainMenuBar) then
+				v:SetPoint(p, a, rp, ox*os/scale, oy*os/scale);
+			end
 		end
 	end
 	FloTotemBar_UpdatePositions();

@@ -30,7 +30,7 @@ globals = {
 -- an API name still surfaces as an undefined-global warning.
 read_globals = {
 	-- namespaces / tables
-	"C_Spell", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
+	"C_Spell", "C_CombatLog", "C_UnitAuras", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
 	-- frames / UI globals
 	"UIParent", "MainMenuBar", "VehicleMenuBar",
 	"MultiBarBottomLeft", "MultiBarBottomRight",
@@ -45,9 +45,7 @@ read_globals = {
 	"GetNumTalents", "GetTalentInfo", "GetGlyphSocketInfo", "NUM_GLYPH_SLOTS",
 	-- combat log
 	"CombatLogGetCurrentEventInfo", "CombatLog_Object_IsA",
-	"COMBATLOG_FILTER_MINE", "COMBATLOG_OBJECT_AFFILIATION_MINE",
-	"COMBATLOG_OBJECT_REACTION_FRIENDLY", "COMBATLOG_OBJECT_CONTROL_PLAYER",
-	"COMBATLOG_OBJECT_TYPE_GUARDIAN",
+	"COMBATLOG_FILTER_MINE",
 	-- bindings / state drivers / secure
 	"GetBindingKey", "SetOverrideBindingClick", "ClearOverrideBindings",
 	"RegisterStateDriver", "UnregisterStateDriver", "InCombatLockdown",
