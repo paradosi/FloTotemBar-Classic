@@ -9,7 +9,7 @@
 -- Printed in the login banner. NOT read from the TOC -- bump it here AND in
 -- both .toc files on every release. This drifted once already (fixed in
 -- bc025dd) and FloAspectBar's equivalent drifted for two releases.
-local VERSION = "1.2.2"
+local VERSION = "1.2.3"
 
 -------------------------------------------------------------------------------
 -- Variables

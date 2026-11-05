@@ -4,6 +4,12 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.3] - 2026-11-05
+
+### Changed
+- Updated for the current clients (TBC Anniversary 2.5.6 and Classic Era 1.15.9), so the addon no longer shows as out of date
+- Release notes on CurseForge and Wago are now this changelog instead of the commit log
+
 ## [1.2.2] - 2026-07-04
 
 ### Fixed
