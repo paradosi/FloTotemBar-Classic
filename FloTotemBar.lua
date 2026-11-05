@@ -361,7 +361,9 @@ function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 	if self.slot ~= slot then
 		return;
 	end
-	local haveTotem, totemName, startTime, duration = GetTotemInfo(slot);
+	-- 7th value is the totem's spell id on both TBC and Era (Blizzard's
+	-- CooldownViewer reads it)
+	local haveTotem, totemName, startTime, duration, _, _, totemSpellId = GetTotemInfo(slot);
 	local spell = self.spells[idx];
 	-- An expired or destroyed totem can still report haveTotem with an empty
 	-- name, so treat no time left as an empty slot too (the old test).
@@ -373,10 +375,14 @@ function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 		end
 		return;
 	end
-	-- Totem names carry the rank ("Searing Totem VII"); only take the timing
-	-- when the slot holds this spell's totem. Anything else (another totem not
+	-- Only take the timing when the slot holds this spell's totem: by spell id
+	-- (any rank resolves to the same name), else by the totem's name, which
+	-- carries the rank ("Searing Totem VII"). Anything else (another totem not
 	-- yet reported by UNIT_SPELLCAST_SUCCEEDED) leaves the timer alone.
-	if not (spell and spell.name and totemName and totemName:sub(1, #spell.name) == spell.name) then
+	local isThisTotem = spell and spell.name and (
+		(totemSpellId and totemSpellId ~= 0 and GetSpellInfo(totemSpellId) == spell.name)
+		or (totemName and totemName:sub(1, #spell.name) == spell.name));
+	if not isThisTotem then
 		return;
 	end
 	local pos = self.sharedCooldown and 1 or idx;
