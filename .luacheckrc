@@ -32,7 +32,7 @@ read_globals = {
 	-- namespaces / tables
 	"C_Spell", "C_CombatLog", "C_UnitAuras", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
 	-- frames / UI globals
-	"UIParent", "MainMenuBar", "VehicleMenuBar",
+	"UIParent", "MainMenuBar", "VehicleMenuBar", "ERR_NOT_IN_COMBAT",
 	"MultiBarBottomLeft", "MultiBarBottomRight",
 	"DEFAULT_CHAT_FRAME", "ColorPickerFrame", "OpacitySliderFrame",
 	-- spell / cooldown / totem API

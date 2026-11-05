@@ -314,7 +314,10 @@ function FloTotemBar_ReadCmd(line)
 
 	local cmd, var = strsplit(' ', line or "");
 
-	if cmd == "scale" and tonumber(var) then
+	if InCombatLockdown() and (cmd == "scale" or cmd == "lock" or cmd == "unlock" or cmd == "auto") then
+		-- moving or scaling a bar moves its secure buttons: blocked in combat
+		DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: "..(ERR_NOT_IN_COMBAT or "You can't do that while in combat"));
+	elseif cmd == "scale" and tonumber(var) then
 		FloTotemBar_SetScale(var);
 	elseif cmd == "lock" or cmd == "unlock" or cmd == "auto" then
 		for _, k in ipairs(PRIMARY_BARS) do
@@ -577,6 +580,12 @@ function FloTotemBar_SetPosition(self, bar, mode)
 
 	-- Close all dropdowns
 	CloseDropDownMenus();
+
+	-- Moving a bar moves its secure buttons, which is blocked in combat
+	if InCombatLockdown() then
+		DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: "..(ERR_NOT_IN_COMBAT or "You can't do that while in combat"));
+		return;
+	end
 
 	if bar.settings then
 		local savePoints = bar.settings.position ~= mode;
