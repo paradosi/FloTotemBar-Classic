@@ -54,9 +54,10 @@ local MainMenuBar = MainMenuBar or MainActionBar;
 -- there, so trap destruction is not detected and a trap timer runs its full
 -- length. It also has no GetSpellInfo; C_Spell returns a table instead.
 local GetSpellInfo = GetSpellInfo or function(spell)
+	if spell == nil then return; end
 	local info = C_Spell.GetSpellInfo(spell);
 	if info then
-		return info.name, nil, info.iconID;
+		return info.name, nil, info.iconID, info.castTime, info.minRange, info.maxRange, info.spellID;
 	end
 end;
 
