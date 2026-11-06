@@ -9,7 +9,7 @@
 -- Printed in the login banner. NOT read from the TOC -- bump it here AND in
 -- both .toc files on every release. This drifted once already (fixed in
 -- bc025dd) and FloAspectBar's equivalent drifted for two releases.
-local VERSION = "1.2.4"
+local VERSION = "1.2.5"
 
 -------------------------------------------------------------------------------
 -- Variables
@@ -48,6 +48,8 @@ end
 -- Blizzard_CombatLogBase, which loads at startup.
 local GetCurrentEventInfo = (C_CombatLog and C_CombatLog.GetCurrentEventInfo) or CombatLogGetCurrentEventInfo;
 local ObjectIsA = (C_CombatLog and C_CombatLog.DoesObjectMatchFilter) or CombatLog_Object_IsA;
+-- WoW Forever renamed the main action bar frame
+local MainMenuBar = MainMenuBar or MainActionBar;
 -- WoW Forever, like Retail, has neither: addons cannot read the combat log
 -- there, so trap destruction is not detected and a trap timer runs its full
 -- length. It also has no GetSpellInfo; C_Spell returns a table instead.
@@ -180,7 +182,11 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 			FloTotemBar_CheckTalentGroup(FLOTOTEMBAR_OPTIONS.active);
 
 			-- Hook the UIParent_ManageFramePositions function
-			hooksecurefunc("UIParent_ManageFramePositions", FloTotemBar_UpdatePositions);
+			-- Forever (Retail's UI) has no UIParent_ManageFramePositions; Blizzard's
+			-- edit-mode layout places its bars there.
+			if UIParent_ManageFramePositions then
+				hooksecurefunc("UIParent_ManageFramePositions", FloTotemBar_UpdatePositions);
+			end
 		end
 
 		local totemtype = self.totemtype;
