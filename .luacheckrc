@@ -37,7 +37,7 @@ read_globals = {
 	"DEFAULT_CHAT_FRAME", "ColorPickerFrame", "OpacitySliderFrame",
 	-- spell / cooldown / totem API
 	"GetSpellInfo", "GetSpellCooldown", "IsUsableSpell", "GetSpellBookItemName",
-	"GetTotemInfo", "GetTotemTimeLeft", "GetTime", "CooldownFrame_Set",
+	"GetTotemInfo", "GetTotemTimeLeft", "canaccessvalue", "GetTime", "CooldownFrame_Set",
 	"PickupSpell", "PickupSpellBookItem", "PickupAction", "PlaceAction",
 	"GetActionInfo", "ClearCursor", "GetCursorInfo",
 	-- unit / class / talent / glyph

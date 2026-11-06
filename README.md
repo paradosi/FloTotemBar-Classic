@@ -4,11 +4,11 @@
 
 <h1 align="center">FloTotemBar — Classic</h1>
 
-Totem, trap, and seal bar addon for **WoW Classic Era** and **TBC Classic Anniversary**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
+Totem, trap, and seal bar addon for **WoW Classic Era**, **TBC Classic Anniversary** and **WoW Forever**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
 
 Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-Dreamscythe**.
 
-![Classic Era: 11509](https://img.shields.io/badge/Classic_Era-11509-yellow) ![TBC Anniversary: 20506](https://img.shields.io/badge/TBC_Anniversary-20506-blue)
+![Classic Era: 11509](https://img.shields.io/badge/Classic_Era-11509-yellow) ![TBC Anniversary: 20506](https://img.shields.io/badge/TBC_Anniversary-20506-blue) ![WoW Forever: 16001](https://img.shields.io/badge/WoW_Forever-16001-purple)
 
 ## Features
 
@@ -62,6 +62,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
    |---------|-------------|----------|
    | Classic Era | `_classic_era_/Interface/AddOns/FloTotemBar/` | `FloTotemBar_Vanilla.toc` |
    | TBC Anniversary | `_anniversary_/Interface/AddOns/FloTotemBar/` | `FloTotemBar.toc` |
+   | WoW Forever | `_forever_/Interface/AddOns/FloTotemBar/` | `FloTotemBar_Camelot.toc` |
 
 2. Log in on a Shaman, Hunter, or Paladin character
 3. The bar appears automatically above your action bars
@@ -74,7 +75,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 
 ## Compatibility
 
-This addon is designed for **Classic Era** and **TBC Classic** only. It does not support Retail WoW — the game mechanics it relies on (element-specific totem slots, Paladin seals, old trap system) were removed in later expansions.
+This addon is designed for **Classic Era**, **TBC Classic** and **WoW Forever** only. It does not support Retail WoW — the game mechanics it relies on (element-specific totem slots, Paladin seals, old trap system) were removed in later expansions.
 
 ## License
 

@@ -48,6 +48,15 @@ end
 -- Blizzard_CombatLogBase, which loads at startup.
 local GetCurrentEventInfo = (C_CombatLog and C_CombatLog.GetCurrentEventInfo) or CombatLogGetCurrentEventInfo;
 local ObjectIsA = (C_CombatLog and C_CombatLog.DoesObjectMatchFilter) or CombatLog_Object_IsA;
+-- WoW Forever, like Retail, has neither: addons cannot read the combat log
+-- there, so trap destruction is not detected and a trap timer runs its full
+-- length. It also has no GetSpellInfo; C_Spell returns a table instead.
+local GetSpellInfo = GetSpellInfo or function(spell)
+	local info = C_Spell.GetSpellInfo(spell);
+	if info then
+		return info.name, nil, info.iconID;
+	end
+end;
 
 -- The primary bar of each class: lock/unlock/auto apply to these. Shaman
 -- FIRE/WATER/AIR follow FloBarEARTH through the layout.
@@ -125,7 +134,7 @@ function FloTotemBar_OnLoad(self)
 		-- Destruction detection
 		if FLO_CLASS_NAME == "SHAMAN" then
 			self:RegisterEvent("PLAYER_TOTEM_UPDATE");
-		else
+		elseif GetCurrentEventInfo then
 			self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 		end
 	end
@@ -155,7 +164,7 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 
 	elseif event == "UNIT_SPELLCAST_INTERRUPTED" then
 		local _, spellId = ...;
-		local spellName = GetSpellInfo(spellId);
+		local spellName = canaccessvalue(spellId) and GetSpellInfo(spellId);
 		if arg1 == "player" and spellName == FLOLIB_ACTIVATE_SPEC then
 			changingSpec = false;
 		end
@@ -212,8 +221,13 @@ function FloTotemBar_SetFixupTrap(pos)
 
 	ACTIVE_OPTIONS.baseActionTrap = pos;
 	for i = 1, #FLO_TOTEM_SPELLS.HUNTER.TRAP do
-		local name = GetSpellInfo(FLO_TOTEM_SPELLS.HUNTER.TRAP[i].id);
-		PickupSpellBookItem(name);
+		local id = FLO_TOTEM_SPELLS.HUNTER.TRAP[i].id;
+		if PickupSpellBookItem then
+			-- by name, so the highest known rank is placed
+			PickupSpellBookItem((GetSpellInfo(id)));
+		else
+			C_Spell.PickupSpell(id);
+		end
 		PlaceAction(pos - 1 + i);
 		ClearCursor();
 	end
@@ -367,11 +381,17 @@ function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 	-- 7th value is the totem's spell id on both TBC and Era (Blizzard's
 	-- CooldownViewer reads it)
 	local haveTotem, totemName, startTime, duration, _, _, totemSpellId = GetTotemInfo(slot);
+	-- On WoW Forever totem slots can be secret values, which addon code may not
+	-- compare; leave the timer alone then.
+	if not canaccessvalue(totemName) or not canaccessvalue(duration) then
+		return;
+	end
 	local spell = self.spells[idx];
 	-- An expired or destroyed totem can still report haveTotem with an empty
 	-- name, so treat no time left as an empty slot too (the old test).
+	local timeLeft = GetTotemTimeLeft and GetTotemTimeLeft(slot);
 	local empty = not haveTotem or not totemName or totemName == "" or not duration or duration == 0
-		or (GetTotemTimeLeft and GetTotemTimeLeft(slot) == 0);
+		or (canaccessvalue(timeLeft) and timeLeft == 0);
 	if empty then
 		if not resync then
 			FloLib_ResetTimer(self, idx);

@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [1.2.4] - 2026-11-05
 
+### Added
+- **WoW Forever support.** Addons cannot read the combat log on Forever, so a trap timer runs its full length there instead of ending when the trap is triggered, and a totem timer is left alone whenever the game hides totem details from addons.
+
 ### Fixed
 - **Shaman totem timers used a fixed duration for every totem except the first button on each bar.** The bar read the totem's real duration from the game but wrote it to a hidden timer, so totems that last longer at higher ranks (Searing Totem, for one) showed as expired while still up. Timers now follow the totem in the slot, whichever order the game reports the cast and the totem in.
 - **Paladins could not keybind seals.** The Seal bar now uses the Earth bindings, as the Trap bar already did (Key Bindings → "Floraline's Earth/Trap/Seal Bar").
@@ -19,7 +22,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 ### Changed
 - Removed unused code and translations
 - Trap and seal timers use `C_CombatLog` instead of the deprecated combat-log functions, so they keep working with `loadDeprecationFallbacks` off and after Blizzard removes the fallbacks.
-- FloLib 1.46: buff checks use `C_UnitAuras`; unused glyph and talent helpers removed.
+- FloLib 1.48: buff checks use `C_UnitAuras`, and skip buffs the game hides from addons; unused glyph and talent helpers removed.
 
 ## [1.2.3] - 2026-11-05
 
