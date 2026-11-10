@@ -30,7 +30,7 @@ globals = {
 -- an API name still surfaces as an undefined-global warning.
 read_globals = {
 	-- namespaces / tables
-	"C_Spell", "C_CombatLog", "C_UnitAuras", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
+	"C_Spell", "C_CombatLog", "C_UnitAuras", "C_Secrets", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
 	-- frames / UI globals
 	"UIParent", "MainMenuBar", "MainActionBar", "UIParent_ManageFramePositions", "VehicleMenuBar", "ERR_NOT_IN_COMBAT",
 	"MultiBarBottomLeft", "MultiBarBottomRight",

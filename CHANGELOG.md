@@ -4,6 +4,11 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.6] - 2026-11-10
+
+### Fixed
+- Shared library FloLib updated to 1.50 (same fix in FloTotemBar and FloAspectBar; update both if you use both).
+
 ## [1.2.5] - 2026-11-06
 
 ### Fixed
