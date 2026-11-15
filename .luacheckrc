@@ -39,7 +39,7 @@ read_globals = {
 	"GetSpellInfo", "GetSpellCooldown", "IsUsableSpell", "GetSpellBookItemName",
 	"GetTotemInfo", "GetTotemTimeLeft", "canaccessvalue", "GetTime", "CooldownFrame_Set",
 	"PickupSpell", "PickupSpellBookItem", "PickupAction", "PlaceAction",
-	"GetActionInfo", "ClearCursor", "GetCursorInfo",
+	"GetActionInfo", "ClearCursor", "CreateFrame", "GetCursorInfo",
 	-- unit / class / talent / glyph
 	"UnitClass", "UnitBuff", "GetSpecialization", "GetLocale",
 	"GetNumTalents", "GetTalentInfo", "GetGlyphSocketInfo", "NUM_GLYPH_SLOTS",

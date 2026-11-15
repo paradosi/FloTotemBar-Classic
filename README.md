@@ -52,6 +52,8 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 | `/ftb scale <num>` | Set bar scale (e.g. `/ftb scale 1.5`) |
 | `/ftb borders` | Show borders |
 | `/ftb noborders` | Hide borders |
+| `/ftb hideblizzard` | Hide Blizzard's own totem bar and totem timers (also in the bar's right-click menu; saved per character; applies after combat if used in combat) |
+| `/ftb showblizzard` | Show them again |
 | `/ftb reset` | Reset all settings (reloads UI) |
 
 ## Installation

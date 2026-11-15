@@ -4,6 +4,12 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.7] - 2026-11-15
+
+### Added
+- **Option to hide Blizzard's own totem UI**, for shamans: tick *Hide Blizzard totem bar* in any totem bar's right-click menu, or type `/ftb hideblizzard`. It hides the totem bar (WoW Forever) and the totem timers under the player frame (TBC and WoW Forever). `/ftb showblizzard` brings them back. The setting is saved, and if you use it in combat it takes effect when combat ends. Classic Era has neither frame, so the option does nothing there.
+- Shared library FloLib updated to 1.51 (same change in FloTotemBar and FloAspectBar; update both if you use both).
+
 ## [1.2.6] - 2026-11-10
 
 ### Fixed

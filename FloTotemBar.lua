@@ -9,7 +9,7 @@
 -- Printed in the login banner. NOT read from the TOC -- bump it here AND in
 -- both .toc files on every release. This drifted once already (fixed in
 -- bc025dd) and FloAspectBar's equivalent drifted for two releases.
-local VERSION = "1.2.6"
+local VERSION = "1.2.7"
 
 -------------------------------------------------------------------------------
 -- Variables
@@ -34,6 +34,9 @@ local ACTIVE_OPTIONS = FLOTOTEMBAR_OPTIONS[1];
 
 -- Ugly
 local changingSpec = true;
+
+-- Set when hiding/showing Blizzard's totem bar had to wait for combat to end
+local blizzardBarPending;
 
 -- TBC and Classic Era have no dual spec, so there is exactly one talent group
 -- and this always returns 1. It shadows the retail API of the same name on
@@ -108,6 +111,13 @@ function FloTotemBar_OnLoad(self)
 	self.OnSetup = FloTotemBar_OnSetup;
 	self.menuHooks = { SetPosition = FloTotemBar_SetPosition, SetBorders = FloTotemBar_SetBorders };
 	if FLO_CLASS_NAME == "SHAMAN" then
+		self.menuHooks.Toggle = {
+			text = FLOTOTEMBAR_HIDEBLIZZARD,
+			get = function() return FLOTOTEMBAR_OPTIONS.hideBlizzard; end,
+			set = function(_, hide) FloTotemBar_ReadCmd(hide and "hideblizzard" or "showblizzard"); end,
+		};
+	end
+	if FLO_CLASS_NAME == "SHAMAN" then
 		self.menuHooks.SetLayoutMenu = FloTotemBar_SetLayoutMenu;
 		self.slot = _G[self.totemtype.."_TOTEM_SLOT"];
 	end
@@ -123,6 +133,7 @@ function FloTotemBar_OnLoad(self)
 
 		self:RegisterEvent("ADDON_LOADED");
 		self:RegisterEvent("UNIT_SPELLCAST_INTERRUPTED");
+		self:RegisterEvent("PLAYER_REGEN_ENABLED");
 	end
 	self:RegisterEvent("CHARACTER_POINTS_CHANGED");
 	self:RegisterEvent("SPELLS_CHANGED");
@@ -188,12 +199,20 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 			if UIParent_ManageFramePositions then
 				hooksecurefunc("UIParent_ManageFramePositions", FloTotemBar_UpdatePositions);
 			end
+
+			FloTotemBar_ApplyBlizzardBar();
 		end
 
 		local totemtype = self.totemtype;
 		-- Hunters and Paladins have one bar, which uses the Earth bindings
 		if totemtype == "TRAP" or totemtype == "SEAL" then totemtype = "EARTH" end
 		FloLib_UpdateBindings(self, "FLOTOTEM"..totemtype);
+
+	elseif event == "PLAYER_REGEN_ENABLED" then
+		-- A Blizzard bar change asked for during combat waits until now
+		if blizzardBarPending then
+			FloTotemBar_ApplyBlizzardBar();
+		end
 
 	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
 		-- Events used for totem destruction detection
@@ -348,6 +367,11 @@ function FloTotemBar_ReadCmd(line)
 		FloTotemBar_SetBorders(nil, true);
 	elseif cmd == "noborders" then
 		FloTotemBar_SetBorders(nil, false);
+	elseif cmd == "hideblizzard" or cmd == "showblizzard" then
+		FLOTOTEMBAR_OPTIONS.hideBlizzard = (cmd == "hideblizzard") or nil;
+		FloTotemBar_ApplyBlizzardBar();
+		DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: Blizzard totem bar "..(FLOTOTEMBAR_OPTIONS.hideBlizzard and "hidden" or "shown")
+			..(blizzardBarPending and " after combat" or ""));
 	elseif cmd == "panic" or cmd == "reset" then
 		FloLib_ResetAddon("FloTotemBar");
 	elseif cmd == "clearfixup" then
@@ -369,8 +393,44 @@ function FloTotemBar_ReadCmd(line)
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb borders|noborders : show/hide borders" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb auto : Automatic positioning" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb scale <num> : Set scale" );
+		DEFAULT_CHAT_FRAME:AddMessage( "/ftb hideblizzard|showblizzard : hide/show Blizzard's totem bar" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb panic||reset : Reset FloTotemBar" );
 		return;
+	end
+end
+
+-- Blizzard's own totem UI: the multicast totem bar (WoW Forever) and the
+-- totem timers under the player frame (TotemFrame: TBC and Forever; Classic
+-- Era has neither). Blizzard re-shows both from its own code, so Hide() would
+-- not stick; they are reparented to a hidden frame instead, as bar addons do.
+-- MultiCastActionBarFrame holds secure buttons, so this waits out combat.
+local BLIZZARD_TOTEM_FRAMES = { "MultiCastActionBarFrame", "TotemFrame" };
+local blizzardHider, blizzardParents = nil, {};
+
+function FloTotemBar_ApplyBlizzardBar()
+
+	if InCombatLockdown() then
+		blizzardBarPending = true;
+		return;
+	end
+	blizzardBarPending = nil;
+
+	local hide = FLOTOTEMBAR_OPTIONS.hideBlizzard;
+	if hide and not blizzardHider then
+		blizzardHider = CreateFrame("Frame");
+		blizzardHider:Hide();
+	end
+	for _, name in ipairs(BLIZZARD_TOTEM_FRAMES) do
+		local frame = _G[name];
+		if frame then
+			if hide and not blizzardParents[name] then
+				blizzardParents[name] = frame:GetParent();
+				frame:SetParent(blizzardHider);
+			elseif not hide and blizzardParents[name] then
+				frame:SetParent(blizzardParents[name]);
+				blizzardParents[name] = nil;
+			end
+		end
 	end
 end
 

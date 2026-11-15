@@ -6,6 +6,9 @@
 -- English localization (Default)
 -------------------------------------------------------------------------------
 
+-- Bar menu
+FLOTOTEMBAR_HIDEBLIZZARD = "Hide Blizzard totem bar";
+
 -- Bindings
 BINDING_HEADER_FLOTOTEMEARTH = "Floraline's Earth/Trap/Seal Bar";
 BINDING_NAME_FLOTOTEMEARTHBUTTON1 = "Earth/Trap/Seal Button 1";
