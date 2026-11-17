@@ -93,6 +93,7 @@ function FloTotemBar_OnLoad(self)
 	end
 
 	self.sharedCooldown = true;
+	self.masqueGroup = "FloTotemBar";
 
 	local thisName = self:GetName();
 	self.totemtype = string.sub(thisName, 7);

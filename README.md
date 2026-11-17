@@ -25,7 +25,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 - **Show/hide borders** — Toggle bar borders via right-click menu
 - **Per-spell visibility** — Hide spells you don't use
 - **Scalable** — Adjust bar scale via slash command
-- **ButtonFacade support** — Optional skinning with ButtonFacade/Masque
+- **Masque support** — Optional button skinning with Masque
 
 ## Screenshots
 
@@ -72,8 +72,8 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 
 ## Optional Dependencies
 
-- **[FloAspectBar](https://github.com/paradosi/FloAspectBar_TBC)** — Hunter aspect bar (shared FloLib library)
-- **ButtonFacade** — Button skinning support
+- **[FloAspectBar](https://github.com/paradosi/FloAspectBar-Classic)** — Hunter aspect bar. Not required: each addon ships its own copy of FloLib. When both are installed, the trap bar docks to the right of the aspect bar
+- **Masque** — Button skinning support
 
 ## Compatibility
 

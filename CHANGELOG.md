@@ -4,6 +4,13 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Fixed
+- **WoW Forever: a Lua error when dragging a spell off the bar** (Shift-drag, or with action bars unlocked). The spell is now picked up correctly.
+- **Masque skinning works again.** The bar looked for Masque before Masque had loaded, so skins were never applied.
+- Shared library FloLib updated to 1.52 (same change in FloTotemBar and FloAspectBar; update both if you use both).
+
 ## [1.2.7] - 2026-11-15
 
 ### Added
