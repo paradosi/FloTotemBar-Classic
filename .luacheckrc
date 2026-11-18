@@ -64,3 +64,12 @@ read_globals = {
 	"IsShiftKeyDown", "IsAltKeyDown", "COOLDOWN_TYPE_NORMAL",
 	"SPELLS", "BACKGROUND", "YES", "NO",
 }
+
+-- FloLib.lua and localization.lua are inherited upstream code (Floraline),
+-- kept unreformatted so they still diff against upstream. Their unused loop
+-- variables, shadowed locals and empty locale branches are style, not bugs;
+-- silence only those classes, only in those files. FloAspectBar gets the same
+-- block from ~/projects/wowaddons/.luacheckrc.
+local floUpstream = { ignore = { "211", "231", "311", "421", "542" } }
+files["FloLib.lua"] = floUpstream
+files["localization.lua"] = floUpstream
