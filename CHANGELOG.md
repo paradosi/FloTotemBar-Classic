@@ -4,6 +4,11 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.2.9] - 2026-11-20
+
+### Added
+- **WoW Forever: Seal of Fury on the paladin seal bar.** Horde paladins' seal was missing from the bar; it now appears once you have learned it.
+
 ## [1.2.8] - 2026-11-17
 
 ### Fixed

@@ -59,6 +59,10 @@ FLO_TOTEM_SPELLS = {
 			{ id = 20166 }, -- Seal of Wisdom
 			{ id = 31892 }, -- Seal of Blood (TBC, Horde)
 			{ id = 31801 }, -- Seal of Vengeance (TBC, Alliance)
+			-- WoW Forever only. The id is Forever's own rank 1, absent on TBC and
+			-- Era, so the button stays hidden there. Keep new spells at the end:
+			-- saved buttonsOrder/hiddenSpells index into this list.
+			{ id = 1311649 }, -- Seal of Fury (Forever)
 		}
 	}
 };
