@@ -4,6 +4,12 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.4.0] - 2026-11-23
+
+### Added
+- **Compact bars** (off by default): each bar shows one button, the spell you picked last. Hover it to open the bar's other spells in a column above it, and click one to cast it and make it the bar's button. Your picks are saved. Works in combat. Turn it on under Esc > Options > AddOns > FloTotemBar, or with `/ftb compact`.
+- With compact bars on, a bar's key binding casts the spell on its button. A binding for a spell in the column casts it and makes it the bar's button too.
+
 ## [1.3.0] - 2026-11-23
 
 ### Added

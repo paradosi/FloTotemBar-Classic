@@ -18,6 +18,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 - **Click to cast** — Left-click any spell to cast it
 - **Cooldown & duration timers** — Visual countdown on active totems and trap cooldowns
 - **Multiple layout options** — Shamans can choose from various totem bar arrangements
+- **Compact bars** — Optional: one button per bar showing the spell you picked last; hover it for the bar's other spells, click one to cast it and make it the bar's button (works in combat)
 - **Keybinding support** — Bind keys via WoW's Key Bindings menu (Hunter traps and Paladin seals use the Earth bar's bindings)
 - **Drag to reorder** — Drag spells on/off bars to customize button order
 - **Position modes** — Automatic, locked, or unlocked (drag to move)
@@ -50,6 +51,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 | `/ftb` | Show help |
 | `/ftb options` | Open the settings panel |
 | `/ftb minimap` | Show or hide the minimap button |
+| `/ftb compact` | Turn compact bars on or off |
 | `/ftb lock` | Lock bar position |
 | `/ftb unlock` | Unlock bar (drag to move) |
 | `/ftb auto` | Automatic positioning above action bars |
