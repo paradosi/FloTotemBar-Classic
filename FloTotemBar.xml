@@ -7,6 +7,7 @@
 	<Script file="data.lua"/>
 	<Script file="FloTotemBar.lua"/>
 	<Script file="Options.lua"/>
+	<Script file="Compact.lua"/>
 
 	<Frame name="FloBarTRAP" inherits="FloBarTemplateT">
 		<Size>

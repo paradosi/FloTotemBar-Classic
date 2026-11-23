@@ -66,6 +66,7 @@ read_globals = {
 	-- minimap button and Settings panel (1.3.0)
 	"Minimap", "GetCursorPosition", "GetMinimapShape", "Settings", "SettingsPanel", "HideUIPanel",
 	"MinimalSliderWithSteppersMixin", "CreateSettingsListSectionHeaderInitializer", "CreateSettingsButtonInitializer",
+	"SecureHandlerWrapScript", "SecureHandlerSetFrameRef",
 }
 
 -- FloLib.lua and localization.lua are inherited upstream code (Floraline),

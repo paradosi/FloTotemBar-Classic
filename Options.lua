@@ -94,6 +94,26 @@ local function MinimapTooltip(tooltip)
 	tooltip:AddLine("Drag: move this button", 1, 1, 1);
 end
 
+-- Compact bars: saved per talent group, applied to every bar of the class
+function FloTotemBar_SetCompact(on)
+
+	if not NotInCombat() then
+		return;
+	end
+	local primary = PrimaryBar();
+	if not primary then
+		return;
+	end
+	primary.globalSettings.compact = on or nil;
+	for _, k in ipairs(BAR_ORDER) do
+		local bar = _G["FloBar"..k];
+		if bar and bar.settings then
+			FloLib_Setup(bar);
+		end
+	end
+	Say("compact bars "..(on and "on: hover a bar's button for its other spells" or "off"));
+end
+
 function FloTotemBar_SetMinimapButton(show)
 
 	FLOTOTEMBAR_OPTIONS.minimap.hide = (not show) or nil;
@@ -167,6 +187,11 @@ function FloTotemBar_InitOptions()
 				function(value) if NotInCombat() then FloTotemBar_SetLayout(nil, value); end end),
 			LayoutChoices, "How the four totem bars are arranged around the Earth bar.");
 	end
+
+	Settings.CreateCheckbox(category, Proxy("compact", "boolean", "Compact bars", false,
+			function() return Options().compact and true or false; end,
+			function(value) FloTotemBar_SetCompact(value); end),
+		"Show one button per bar: the spell you picked last. Hover it to open the bar's other spells, and click one to cast it and make it the bar's button. Works in combat. /ftb compact also turns it on and off.");
 
 	local scaleOptions = Settings.CreateSliderOptions(0.5, 2, 0.05);
 	scaleOptions:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)

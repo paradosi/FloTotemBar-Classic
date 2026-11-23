@@ -357,7 +357,7 @@ function FloTotemBar_ReadCmd(line)
 
 	local cmd, var = strsplit(' ', line or "");
 
-	if InCombatLockdown() and (cmd == "scale" or cmd == "lock" or cmd == "unlock" or cmd == "auto") then
+	if InCombatLockdown() and (cmd == "scale" or cmd == "lock" or cmd == "unlock" or cmd == "auto" or cmd == "compact") then
 		-- moving or scaling a bar moves its secure buttons: blocked in combat
 		DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: "..(ERR_NOT_IN_COMBAT or "You can't do that while in combat"));
 	elseif cmd == "scale" and tonumber(var) then
@@ -377,6 +377,8 @@ function FloTotemBar_ReadCmd(line)
 			..(blizzardBarPending and " after combat" or ""));
 	elseif cmd == "options" or cmd == "config" then
 		FloTotemBar_OpenOptions();
+	elseif cmd == "compact" then
+		FloTotemBar_SetCompact(not ACTIVE_OPTIONS.compact);
 	elseif cmd == "minimap" then
 		if FLOTOTEMBAR_OPTIONS.minimap then
 			FloTotemBar_SetMinimapButton(FLOTOTEMBAR_OPTIONS.minimap.hide);
@@ -401,6 +403,7 @@ function FloTotemBar_ReadCmd(line)
 		DEFAULT_CHAT_FRAME:AddMessage( "FloTotemBar usage :" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb options : Open the settings (Esc > Options > AddOns)" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb minimap : Show/hide the minimap button" );
+		DEFAULT_CHAT_FRAME:AddMessage( "/ftb compact : One button per bar, the others on hover" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb lock|unlock : lock/unlock position" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb borders|noborders : show/hide borders" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb auto : Automatic positioning" );
@@ -570,6 +573,9 @@ function FloTotemBar_OnSetup(self)
 		        RegisterStateDriver(self, "visibility", "show")
 	        end
         end
+
+	-- Compact bars (Compact.lua): one button, the rest on hover
+	FloTotemBar_ApplyCompact(self);
 
 end
 
