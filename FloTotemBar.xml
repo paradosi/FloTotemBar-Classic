@@ -6,6 +6,7 @@
 	<Script file="localization.lua"/>
 	<Script file="data.lua"/>
 	<Script file="FloTotemBar.lua"/>
+	<Script file="Options.lua"/>
 
 	<Frame name="FloBarTRAP" inherits="FloBarTemplateT">
 		<Size>

@@ -4,6 +4,14 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [1.3.0] - 2026-11-23
+
+### Added
+- **Settings panel** under Esc > Options > AddOns > FloTotemBar: position, scale, borders, the minimap button, and a checkbox for each spell on each of your bars. Shamans also get the totem bar layout and *Hide Blizzard totem bar*. `/ftb options` opens it, and so does **Options...** in a bar's right-click menu.
+- **Minimap button.** Left-click opens the settings, right-click locks or unlocks the bars so you can move them, and dragging moves the button around the minimap. Turn it off in the settings or with `/ftb minimap`.
+- **WoW Forever: an entry in the addon compartment** (the addon list next to the minimap) that does the same, so the settings are still one click away with the minimap button off.
+- Shared library FloLib updated to 1.53 (same change in FloTotemBar and FloAspectBar; update both if you use both).
+
 ## [1.2.9] - 2026-11-20
 
 ### Added

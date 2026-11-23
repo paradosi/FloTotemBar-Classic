@@ -9,7 +9,7 @@
 -- Printed in the login banner. NOT read from the TOC -- bump it here AND in
 -- both .toc files on every release. This drifted once already (fixed in
 -- bc025dd) and FloAspectBar's equivalent drifted for two releases.
-local VERSION = "1.2.9"
+local VERSION = "1.3.0"
 
 -------------------------------------------------------------------------------
 -- Variables
@@ -110,7 +110,8 @@ function FloTotemBar_OnLoad(self)
 	self.spells = {};
 	self.SetupSpell = FloTotemBar_SetupSpell;
 	self.OnSetup = FloTotemBar_OnSetup;
-	self.menuHooks = { SetPosition = FloTotemBar_SetPosition, SetBorders = FloTotemBar_SetBorders };
+	self.menuHooks = { SetPosition = FloTotemBar_SetPosition, SetBorders = FloTotemBar_SetBorders,
+		Options = { text = "Options...", func = function() FloTotemBar_OpenOptions(); end } };
 	if FLO_CLASS_NAME == "SHAMAN" then
 		self.menuHooks.Toggle = {
 			text = FLOTOTEMBAR_HIDEBLIZZARD,
@@ -202,6 +203,7 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 			end
 
 			FloTotemBar_ApplyBlizzardBar();
+			FloTotemBar_InitOptions();
 		end
 
 		local totemtype = self.totemtype;
@@ -373,6 +375,13 @@ function FloTotemBar_ReadCmd(line)
 		FloTotemBar_ApplyBlizzardBar();
 		DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: Blizzard totem bar "..(FLOTOTEMBAR_OPTIONS.hideBlizzard and "hidden" or "shown")
 			..(blizzardBarPending and " after combat" or ""));
+	elseif cmd == "options" or cmd == "config" then
+		FloTotemBar_OpenOptions();
+	elseif cmd == "minimap" then
+		if FLOTOTEMBAR_OPTIONS.minimap then
+			FloTotemBar_SetMinimapButton(FLOTOTEMBAR_OPTIONS.minimap.hide);
+			DEFAULT_CHAT_FRAME:AddMessage("FloTotemBar: minimap button "..(FLOTOTEMBAR_OPTIONS.minimap.hide and "hidden" or "shown"));
+		end
 	elseif cmd == "panic" or cmd == "reset" then
 		FloLib_ResetAddon("FloTotemBar");
 	elseif cmd == "clearfixup" then
@@ -390,6 +399,8 @@ function FloTotemBar_ReadCmd(line)
 		FloTotemBar_TryAddFixupTrapAction();
 	else
 		DEFAULT_CHAT_FRAME:AddMessage( "FloTotemBar usage :" );
+		DEFAULT_CHAT_FRAME:AddMessage( "/ftb options : Open the settings (Esc > Options > AddOns)" );
+		DEFAULT_CHAT_FRAME:AddMessage( "/ftb minimap : Show/hide the minimap button" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb lock|unlock : lock/unlock position" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb borders|noborders : show/hide borders" );
 		DEFAULT_CHAT_FRAME:AddMessage( "/ftb auto : Automatic positioning" );

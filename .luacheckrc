@@ -63,6 +63,9 @@ read_globals = {
 	"CONTAINER_OFFSET_X", "CONTAINER_OFFSET_Y", "LOCK_ACTIONBAR",
 	"IsShiftKeyDown", "IsAltKeyDown", "COOLDOWN_TYPE_NORMAL",
 	"SPELLS", "BACKGROUND", "YES", "NO",
+	-- minimap button and Settings panel (1.3.0)
+	"Minimap", "GetCursorPosition", "GetMinimapShape", "Settings", "SettingsPanel", "HideUIPanel",
+	"MinimalSliderWithSteppersMixin", "CreateSettingsListSectionHeaderInitializer", "CreateSettingsButtonInitializer",
 }
 
 -- FloLib.lua and localization.lua are inherited upstream code (Floraline),

@@ -24,7 +24,9 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 - **Customizable background** — Color picker with opacity slider
 - **Show/hide borders** — Toggle bar borders via right-click menu
 - **Per-spell visibility** — Hide spells you don't use
-- **Scalable** — Adjust bar scale via slash command
+- **Scalable** — Adjust bar scale in the settings or via slash command
+- **Settings panel** — Esc > Options > AddOns > FloTotemBar, or **Options...** in a bar's right-click menu
+- **Minimap button** — Left-click for settings, right-click to lock/unlock the bars, drag to move it; can be turned off (WoW Forever also lists the addon in the addon compartment)
 - **Masque support** — Optional button skinning with Masque
 
 ## Screenshots
@@ -46,6 +48,8 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 | Command | Description |
 |---------|-------------|
 | `/ftb` | Show help |
+| `/ftb options` | Open the settings panel |
+| `/ftb minimap` | Show or hide the minimap button |
 | `/ftb lock` | Lock bar position |
 | `/ftb unlock` | Unlock bar (drag to move) |
 | `/ftb auto` | Automatic positioning above action bars |
