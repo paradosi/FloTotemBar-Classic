@@ -48,10 +48,13 @@ local OPEN_FLYOUT = [[
 	end
 ]];
 
--- Other buttons, OnClick: only a left click, and only on its release, so the
--- swap happens after the spell was cast whichever of down/up casts it
+-- Other buttons, OnClick: a left click, on the press. In compact mode these
+-- buttons carry useOnKeyDown, so the press is the click that casts on every
+-- client whatever the ActionButtonUseKeyDown CVar says, and the post-body
+-- runs after that cast. (WoW Forever sends no OnClick for the release at
+-- all: waiting for it, as 1.3.0's test build did, never swapped.)
 local PICK_PRE = [[
-	if owner:GetAttribute("compact") and button == "LeftButton" and not down then
+	if owner:GetAttribute("compact") and button == "LeftButton" and down then
 		return nil, "swap";
 	end
 ]];
@@ -140,11 +143,14 @@ function FloTotemBar_ApplyCompact(self)
 			-- a column above Button1, drawn over the bars next to it
 			button:SetPoint("BOTTOM", _G[name.."Button"..(i - 1)], "TOP", 0, 4);
 			button:SetFrameStrata("HIGH");
+			button:SetAttribute("useOnKeyDown", true);
 			button:Hide();
 		else
 			-- where FloLib_Setup puts them on a shared-cooldown bar
 			button:SetPoint("LEFT", _G[name.."Countdown"..i], "LEFT", 0, 0);
 			button:SetFrameStrata(self:GetFrameStrata());
+			-- back to the ActionButtonUseKeyDown CVar
+			button:SetAttribute("useOnKeyDown", nil);
 			if i <= count then
 				button:Show();
 			end
