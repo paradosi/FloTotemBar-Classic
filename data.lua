@@ -2,6 +2,9 @@
 -- License, v. 2.0. If a copy of the MPL was not distributed with this file,
 -- You can obtain one at http://mozilla.org/MPL/2.0/.
 
+-- notOnForever: TBC spells WoW Forever doesn't have. They stay in these lists
+-- because saved buttonsOrder/hiddenSpells index into them by position (removing
+-- one would scramble saved bars); the settings panel and the bar menu skip them.
 FLO_TOTEM_SPELLS = {
 	["HUNTER"] = {
 		["TRAP"] = {
@@ -9,7 +12,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 1499, algo = 1 },  -- Freezing Trap
 			{ id = 13809, algo = 1 }, -- Frost Trap
 			{ id = 13813, algo = 1 }, -- Explosive Trap
-			{ id = 34600, algo = 1 }, -- Snake Trap (TBC)
+			{ id = 34600, algo = 1, notOnForever = true }, -- Snake Trap (TBC)
 		}
 	},
 	["SHAMAN"] = {
@@ -27,7 +30,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 8181, duration = 120 },  -- Frost Resistance Totem
 			{ id = 8190, duration = 21 },   -- Magma Totem (Era: 20)
 			{ id = 8227, duration = 120 },  -- Flametongue Totem
-			{ id = 30706, duration = 120 }, -- Totem of Wrath (TBC, Elemental talent)
+			{ id = 30706, duration = 120, notOnForever = true }, -- Totem of Wrath (TBC, Elemental talent)
 			{ id = 2894, duration = 120 },  -- Fire Elemental Totem
 		},
 		["WATER"] = {
@@ -46,7 +49,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 15107, duration = 120 }, -- Windwall Totem
 			{ id = 8835, duration = 120 },  -- Grace of Air Totem
 			{ id = 25908, duration = 120 }, -- Tranquil Air Totem
-			{ id = 3738, duration = 120 },  -- Wrath of Air Totem (TBC)
+			{ id = 3738, duration = 120, notOnForever = true },  -- Wrath of Air Totem (TBC)
 		}
 	},
 	["PALADIN"] = {
@@ -57,11 +60,10 @@ FLO_TOTEM_SPELLS = {
 			{ id = 20375 }, -- Seal of Command
 			{ id = 20165 }, -- Seal of Light
 			{ id = 20166 }, -- Seal of Wisdom
-			{ id = 31892 }, -- Seal of Blood (TBC, Horde)
-			{ id = 31801 }, -- Seal of Vengeance (TBC, Alliance)
-			-- WoW Forever only. The id is Forever's own rank 1, absent on TBC and
-			-- Era, so the button stays hidden there. Keep new spells at the end:
-			-- saved buttonsOrder/hiddenSpells index into this list.
+			{ id = 31892, notOnForever = true }, -- Seal of Blood (TBC, Horde)
+			{ id = 31801, notOnForever = true }, -- Seal of Vengeance (TBC, Alliance)
+			-- WoW Forever's own rank 1. Keep new spells at the end: saved
+			-- buttonsOrder/hiddenSpells index into this list.
 			{ id = 1311649 }, -- Seal of Fury (Forever)
 		}
 	}

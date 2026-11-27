@@ -260,18 +260,21 @@ function FloTotemBar_InitOptions()
 		if bar and bar.settings and bar.availableSpells then
 			last = W.Section(host, last, first and 0 or -18, BAR_TITLES[k]);
 			first = false;
+			local section = last;
 			for i, spell in ipairs(bar.availableSpells) do
-				local name = spell.name or C_Spell.GetSpellName(spell.id) or ("Spell "..spell.id);
-				local check = W.Check(host, last, i == 1 and -10 or -6, name);
-				check.onChange = function(value)
-					local shown = not bar.settings.hiddenSpells[i];
-					if shown ~= value and NotInCombat() then
-						FloLib_ToggleSpell(nil, bar, i);
-					end
-					Sync();
-				end;
-				table.insert(spellChecks, { check = check, bar = bar, idx = i });
-				last = check;
+				if not spell.notOnForever then  -- TBC spells (data.lua)
+					local name = spell.name or C_Spell.GetSpellName(spell.id) or ("Spell "..spell.id);
+					local check = W.Check(host, last, last == section and -10 or -6, name);
+					check.onChange = function(value)
+						local shown = not bar.settings.hiddenSpells[i];
+						if shown ~= value and NotInCombat() then
+							FloLib_ToggleSpell(nil, bar, i);
+						end
+						Sync();
+					end;
+					table.insert(spellChecks, { check = check, bar = bar, idx = i });
+					last = check;
+				end
 			end
 		end
 	end
@@ -314,7 +317,7 @@ function FloTotemBar_InitOptions()
 	help:SetScript("OnClick", FloTotemBar_ShowSupportLink);
 	help:SetShown(WEBSITE ~= nil);
 
-	local hint = W.Note(host, reset, -10, "/ftb for commands  ·  right-click a bar for its menu");
+	local hint = W.Note(host, reset, -10, "/ftb for commands  ·  right-click a bar for its menu", COL_W * 2 + 40);
 
 	Sync = function()
 		local options = Options();
