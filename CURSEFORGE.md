@@ -11,7 +11,7 @@ Shamans get a bar per element, hunters a trap bar, paladins a seal bar: clickabl
 ## Features
 
 - **Shaman:** four bars, Earth, Fire, Water and Air, with each totem's remaining time. Several layouts: one row, two rows, four rows, reversed.
-- **Hunter:** a trap bar (Immolation, Freezing, Frost, Explosive) with cooldowns. It docks beside FloAspectBar when both are installed.
+- **Hunter:** a trap bar (Immolation, Freezing, Frost, Explosive) with cooldowns. It docks beside FloAspectBar Forever when both are installed.
 - **Paladin:** a seal bar with every seal, including Forever's Seal of Fury.
 - **Compact bars** (optional): one button per bar showing the spell you used last; hover it for the rest, click one to cast it. Works in combat.
 - **Keybinds** through the game's Key Bindings menu (traps and seals use the Earth bar's bindings).
@@ -47,7 +47,7 @@ Trap and seal timers always run their full length: WoW Forever doesn't let addon
 
 ## Works well with
 
-- **[FloAspectBar](https://github.com/paradosi/FloAspectBar-Classic)**: hunter aspects on one bar; the trap bar docks beside it.
+- **[FloAspectBar Forever](https://github.com/paradosi/FloAspectBar-Classic)**: hunter aspects on one bar; the trap bar docks beside it.
 - **Masque**: button skins.
 
 ## Help and bug reports

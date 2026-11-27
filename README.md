@@ -81,7 +81,7 @@ header, and its **Help and bug reports** button opens this repository's address,
 
 ## Optional Dependencies
 
-- **[FloAspectBar](https://github.com/paradosi/FloAspectBar-Classic)** — Hunter aspect bar. Not required: each addon ships its own copy of FloLib. When both are installed, the trap bar docks to the right of the aspect bar
+- **[FloAspectBar Forever](https://github.com/paradosi/FloAspectBar-Classic)** — Hunter aspect bar. Not required: each addon ships its own copy of FloLib. When both are installed, the trap bar docks to the right of the aspect bar
 - **Masque** — Button skinning support
 
 ## Compatibility
