@@ -1,9 +1,10 @@
-## Interface: 20506
+## Interface: 16001
 ## Title: FloTotemBar
 ## Author: paradosi-Dreamscythe
 ## Notes: Totem, trap, and seal bars with timers. Originally by Floraline.
 ## Version: 1.4.0
 ## IconTexture: Interface\AddOns\FloTotemBar\media\textures\tauren_totem_64x64
+## AddonCompartmentFunc: FloTotemBar_OnMinimapClick
 ## Category-enUS: Shaman
 ## OptionalDeps: Masque, FloAspectBar
 ## X-Wago-ID: L6J9BQNv

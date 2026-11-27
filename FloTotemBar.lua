@@ -16,8 +16,6 @@ local VERSION = "1.4.0"
 -------------------------------------------------------------------------------
 local _
 
-local ALGO_TRAP;
-
 local SHOW_WELCOME = true;
 local FLOTOTEMBAR_OPTIONS_DEFAULT = { [1] = { scale = 1, borders = true, barLayout = "1row", barSettings = {} }, active = 1 };
 FLOTOTEMBAR_OPTIONS = FLOTOTEMBAR_OPTIONS_DEFAULT;
@@ -38,25 +36,20 @@ local changingSpec = true;
 -- Set when hiding/showing Blizzard's totem bar had to wait for combat to end
 local blizzardBarPending;
 
--- TBC and Classic Era have no dual spec, so there is exactly one talent group
--- and this always returns 1. It shadows the retail API of the same name on
--- purpose, so the spec-switching paths below can stay unmodified from upstream.
+-- One talent group is all this addon manages, so this always returns 1. It
+-- shadows Blizzard's API of the same name on purpose, so the spec-switching
+-- paths below can stay unmodified from upstream.
 local GetSpecialization = function()
 	return 1
 end
 
--- Combat log API. The flat globals exist on TBC/Era only as Blizzard_Deprecated
--- fallbacks (gone with loadDeprecationFallbacks=0, and slated for removal), so
--- prefer C_CombatLog. COMBATLOG_FILTER_MINE is not deprecated: it moved to
--- Blizzard_CombatLogBase, which loads at startup.
-local GetCurrentEventInfo = (C_CombatLog and C_CombatLog.GetCurrentEventInfo) or CombatLogGetCurrentEventInfo;
-local ObjectIsA = (C_CombatLog and C_CombatLog.DoesObjectMatchFilter) or CombatLog_Object_IsA;
--- WoW Forever renamed the main action bar frame
-local MainMenuBar = MainMenuBar or MainActionBar;
--- WoW Forever, like Retail, has neither: addons cannot read the combat log
--- there, so trap destruction is not detected and a trap timer runs its full
--- length. It also has no GetSpellInfo; C_Spell returns a table instead.
-local GetSpellInfo = GetSpellInfo or function(spell)
+-- WoW Forever's main action bar frame (MainMenuBar on the old clients)
+local MainMenuBar = MainActionBar;
+-- Addons cannot read the combat log on WoW Forever, so a trap or seal timer
+-- runs its full length: nothing tells the bar the trap was sprung or the seal
+-- ended early. Forever has no GetSpellInfo either; C_Spell returns a table, and
+-- this keeps the old return shape.
+local GetSpellInfo = function(spell)
 	if spell == nil then return; end
 	local info = C_Spell.GetSpellInfo(spell);
 	if info then
@@ -74,13 +67,6 @@ local PRIMARY_BARS = { "TRAP", "EARTH", "SEAL" };
 
 -- Executed on load, calls general set-up functions
 function FloTotemBar_OnLoad(self)
-
-	ALGO_TRAP = {
-		[1] = FloTotemBar_CheckTrapLife,
-		[2] = FloTotemBar_CheckTrapLife,
-		[3] = FloTotemBar_CheckTrapLife,
-		[4] = function() end
-	};
 
 	-- Class-based setup, abort if not supported
 	_, FLO_CLASS_NAME = UnitClass("player");
@@ -147,11 +133,9 @@ function FloTotemBar_OnLoad(self)
 		self:RegisterUnitEvent("UNIT_SPELLCAST_SUCCEEDED", "player");
 		self:RegisterEvent("PLAYER_DEAD");
 
-		-- Destruction detection
+		-- Destruction detection (totems only: see GetSpellInfo above)
 		if FLO_CLASS_NAME == "SHAMAN" then
 			self:RegisterEvent("PLAYER_TOTEM_UPDATE");
-		elseif GetCurrentEventInfo then
-			self:RegisterEvent("COMBAT_LOG_EVENT_UNFILTERED");
 		end
 	end
 end
@@ -195,13 +179,6 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 		if event == "ADDON_LOADED" then
 			FloTotemBar_CheckTalentGroup(FLOTOTEMBAR_OPTIONS.active);
 
-			-- Hook the UIParent_ManageFramePositions function
-			-- Forever (Retail's UI) has no UIParent_ManageFramePositions; Blizzard's
-			-- edit-mode layout places its bars there.
-			if UIParent_ManageFramePositions then
-				hooksecurefunc("UIParent_ManageFramePositions", FloTotemBar_UpdatePositions);
-			end
-
 			FloTotemBar_ApplyBlizzardBar();
 			FloTotemBar_InitOptions();
 		end
@@ -217,19 +194,6 @@ function FloTotemBar_OnEvent(self, event, arg1, ...)
 			FloTotemBar_ApplyBlizzardBar();
 		end
 
-	elseif event == "COMBAT_LOG_EVENT_UNFILTERED" then
-		-- Events used for totem destruction detection
-		local pos;
-		for i = 1, #self.spells do
-			if self.sharedCooldown then
-				pos = 1
-			else
-				pos = i
-			end
-			if self["activeSpell"..pos] and i == self["activeSpell"..pos] then
-				self.spells[i].algo(self, i, GetCurrentEventInfo());
-			end
-		end
 	elseif event == "PLAYER_TOTEM_UPDATE" then
 		-- Events used for totem destruction detection
 		local pos;
@@ -251,12 +215,7 @@ function FloTotemBar_SetFixupTrap(pos)
 	ACTIVE_OPTIONS.baseActionTrap = pos;
 	for i = 1, #FLO_TOTEM_SPELLS.HUNTER.TRAP do
 		local id = FLO_TOTEM_SPELLS.HUNTER.TRAP[i].id;
-		if PickupSpellBookItem then
-			-- by name, so the highest known rank is placed
-			PickupSpellBookItem((GetSpellInfo(id)));
-		else
-			C_Spell.PickupSpell(id);
-		end
+		C_Spell.PickupSpell(id);
 		PlaceAction(pos - 1 + i);
 		ClearCursor();
 	end
@@ -414,9 +373,8 @@ function FloTotemBar_ReadCmd(line)
 	end
 end
 
--- Blizzard's own totem UI: the multicast totem bar (WoW Forever) and the
--- totem timers under the player frame (TotemFrame: TBC and Forever; Classic
--- Era has neither). Blizzard re-shows both from its own code, so Hide() would
+-- Blizzard's own totem UI: the multicast totem bar and the totem timers under
+-- the player frame (TotemFrame). Blizzard re-shows both from its own code, so Hide() would
 -- not stick; they are reparented to a hidden frame instead, as bar addons do.
 -- MultiCastActionBarFrame holds secure buttons, so this waits out combat.
 local BLIZZARD_TOTEM_FRAMES = { "MultiCastActionBarFrame", "TotemFrame" };
@@ -460,10 +418,9 @@ function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 	if self.slot ~= slot then
 		return;
 	end
-	-- 7th value is the totem's spell id on both TBC and Era (Blizzard's
-	-- CooldownViewer reads it)
+	-- 7th value is the totem's spell id (Blizzard's CooldownViewer reads it)
 	local haveTotem, totemName, startTime, duration, _, _, totemSpellId = GetTotemInfo(slot);
-	-- On WoW Forever totem slots can be secret values, which addon code may not
+	-- Totem slots can be secret values, which addon code may not
 	-- compare; leave the timer alone then.
 	if not canaccessvalue(totemName) or not canaccessvalue(duration) then
 		return;
@@ -499,39 +456,10 @@ function FloTotemBar_UpdateTotem(self, slot, idx, resync)
 	FloLib_OnUpdate(self);
 end
 
-function FloTotemBar_CheckTrapLife(self, spellIdx, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId, spellName, ...)
-
-	local spell = self.spells[spellIdx];
-	local name = string.upper(spell.name);
-	local spellTexture;
-
-	_, _, spellTexture = GetSpellInfo(spell.id);
-	-- bad french localisation
-	if spellName == "Effet Piège immolation" then spellName = "Effet Piège d'immolation" end
-
-	if event ~= nil and strsub(event, 1, 5) == "SPELL" and event ~= "SPELL_CAST_SUCCESS" and event ~= "SPELL_CREATE" and (spell.texture == spellTexture or string.find(string.upper(spellName), name, 1, true)) and destGUID ~= "" then
-		if ObjectIsA(sourceFlags, COMBATLOG_FILTER_MINE) then
-			FloLib_ResetTimer(self, spellIdx);
-		else
-			FloTotemBar_TimerRed(self, spellIdx);
-		end
-	end
-end
-
-function FloTotemBar_UpdateSeal(self, spellIdx, timestamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags, spellId, spellName, ...)
-	if event == "SPELL_AURA_REMOVED" and ObjectIsA(sourceFlags, COMBATLOG_FILTER_MINE) then
-		local spell = self.spells[spellIdx];
-		if (spell.name == spellName) then
-			FloLib_ResetTimer(self, spellIdx);
-		end
-	end
-end
-
 function FloTotemBar_SetupSpell(self, spell, pos)
 
-	local duration, algo, algoIdx, spellName, spellTexture;
+	local duration, algo, spellName, spellTexture;
 
-        algoIdx = spell.algo;
         spellName = spell.name;
         spellTexture = spell.texture;
 
@@ -553,10 +481,8 @@ function FloTotemBar_SetupSpell(self, spell, pos)
 		duration = spell.duration;
 	elseif FLO_CLASS_NAME == "HUNTER" then
 		duration = spell.duration or 60;
-		algo = ALGO_TRAP[algoIdx];
 	elseif FLO_CLASS_NAME == "PALADIN" then
 		duration = spell.duration or 30;
-		algo = FloTotemBar_UpdateSeal;
 	end
 
 	self.spells[pos] = { id = spell.id, name = spellName, addName = spell.addName, duration = duration, algo = algo, talented = spell.talented, talentedName = spell.talentedName };
@@ -600,16 +526,16 @@ function FloTotemBar_UpdatePosition(self)
 		local yOffset2 = 0;
 		local anchorFrame;
 
-		if not MainMenuBar:IsShown() and not (VehicleMenuBar and VehicleMenuBar:IsShown()) then
+		if not MainMenuBar:IsShown() then
 			anchorFrame = UIParent;
 			yOffset = 110 - UIParent:GetHeight();
 		else
 			anchorFrame = MainMenuBar;
 
-			if MultiBarBottomLeft and MultiBarBottomLeft:IsShown() then
+			if MultiBarBottomLeft:IsShown() then
 				yOffset = yOffset + 50;
 			end
-			if MultiBarBottomRight and MultiBarBottomRight:IsShown() then
+			if MultiBarBottomRight:IsShown() then
 				yOffset = yOffset + 50;
 			end
 		end
@@ -777,12 +703,5 @@ function FloTotemBar_ResetTimers(self)
 	FloLib_OnUpdate(self);
 end
 
-function FloTotemBar_TimerRed(self, school)
 
-	local countdown = _G[self:GetName().."Countdown"..school];
-	if countdown then
-		countdown:SetStatusBarColor(0.5, 0.5, 0.5);
-	end
-
-end
 

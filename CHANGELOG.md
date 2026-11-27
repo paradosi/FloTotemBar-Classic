@@ -4,6 +4,12 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Changed
+- WoW Forever only. 1.4.0 was the last version for Classic Era and TBC Anniversary, and it stays available for download
+- Removed the trap and seal "ended early" detection. It relied on the combat log, which WoW Forever doesn't give to addons, so it never worked there
+
 ## [1.4.0] - 2026-11-23
 
 ### Added

@@ -4,17 +4,17 @@
 
 <h1 align="center">FloTotemBar — Classic</h1>
 
-Totem, trap, and seal bar addon for **WoW Classic Era**, **TBC Classic Anniversary** and **WoW Forever**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
+Totem, trap, and seal bar addon for **WoW Forever**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
 
 Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-Dreamscythe**.
 
-![Classic Era: 11509](https://img.shields.io/badge/Classic_Era-11509-yellow) ![TBC Anniversary: 20506](https://img.shields.io/badge/TBC_Anniversary-20506-blue) ![WoW Forever: 16001](https://img.shields.io/badge/WoW_Forever-16001-purple)
+![WoW Forever: 16001](https://img.shields.io/badge/WoW_Forever-16001-purple)
 
 ## Features
 
 - **Shaman Totem Bars** — 4 separate bars for Earth, Fire, Water, and Air totems with duration timers
-- **Hunter Trap Bar** — All 5 traps (Immolation, Freezing, Frost, Explosive, Snake) with cooldown tracking
-- **Paladin Seal Bar** — All seals including TBC faction-specific seals (Blood/Vengeance)
+- **Hunter Trap Bar** — Immolation, Freezing, Frost and Explosive traps with cooldown tracking
+- **Paladin Seal Bar** — All seals, including Forever's Seal of Fury
 - **Click to cast** — Left-click any spell to cast it
 - **Cooldown & duration timers** — Visual countdown on active totems and trap cooldowns
 - **Multiple layout options** — Shamans can choose from various totem bar arrangements
@@ -64,17 +64,11 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 
 ## Installation
 
-1. Download and extract to your AddOns folder:
-
-   | Version | AddOns Path | TOC File |
-   |---------|-------------|----------|
-   | Classic Era | `_classic_era_/Interface/AddOns/FloTotemBar/` | `FloTotemBar_Vanilla.toc` |
-   | TBC Anniversary | `_anniversary_/Interface/AddOns/FloTotemBar/` | `FloTotemBar.toc` |
-   | WoW Forever | `_forever_/Interface/AddOns/FloTotemBar/` | `FloTotemBar_Camelot.toc` |
+1. Download and extract to WoW Forever's AddOns folder: `_forever_/Interface/AddOns/FloTotemBar/`
 
 2. Log in on a Shaman, Hunter, or Paladin character
 3. The bar appears automatically above your action bars
-4. TBC-only spells (Snake Trap, Totem of Wrath, Wrath of Air, Seal of Blood/Vengeance) only appear on TBC clients
+4. Trap and seal timers always run their full length: WoW Forever doesn't let addons read the combat log, so the bar can't tell when a trap is sprung or a seal ends early. Totem timers do follow the real totem
 
 ## Optional Dependencies
 
@@ -83,7 +77,12 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 
 ## Compatibility
 
-This addon is designed for **Classic Era**, **TBC Classic** and **WoW Forever** only. It does not support Retail WoW — the game mechanics it relies on (element-specific totem slots, Paladin seals, old trap system) were removed in later expansions.
+**WoW Forever** (Interface 16001) only.
+
+> [!IMPORTANT]
+> **WoW Forever only from the next release.** Version 1.4.0 is the last one for Classic Era and
+> TBC Anniversary. It stays downloadable on CurseForge, Wago and GitHub Releases, but gets no
+> further updates.
 
 ## License
 

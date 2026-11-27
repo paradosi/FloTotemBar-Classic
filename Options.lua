@@ -226,7 +226,7 @@ function FloTotemBar_InitOptions()
 		if bar and bar.settings and bar.availableSpells then
 			Header(BAR_TITLES[k]);
 			for i, spell in ipairs(bar.availableSpells) do
-				local name = spell.name or (C_Spell and C_Spell.GetSpellName and C_Spell.GetSpellName(spell.id)) or ("Spell "..spell.id);
+				local name = spell.name or C_Spell.GetSpellName(spell.id) or ("Spell "..spell.id);
 				Settings.CreateCheckbox(category, Proxy(k.."_spell"..spell.id, "boolean", name, true,
 						function() return not bar.settings.hiddenSpells[i]; end,
 						function(value)
