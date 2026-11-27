@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/tauren_totem_400x400.png" width="200" alt="FloTotemBar">
+  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png" width="200" alt="FloTotemBar">
 </p>
 
 <h1 align="center">FloTotemBar — Classic</h1>

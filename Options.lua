@@ -33,7 +33,7 @@ function FloTotemBar_ShowSupportLink()
 end
 
 local MINIMAP_DEFAULT_ANGLE = 160;
-local ICON = "Interface\\AddOns\\FloTotemBar\\media\\textures\\tauren_totem_64x64";
+local ICON = "Interface\\AddOns\\FloTotemBar\\media\\textures\\logo_64";
 
 -- Same order as FloTotemBar.lua's PRIMARY_BARS: position applies to these,
 -- and the shaman's other bars follow FloBarEARTH through the layout
