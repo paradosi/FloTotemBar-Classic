@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png" width="200" alt="FloTotemBar Forever">
+  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/art/logo_400.png" width="200" alt="FloTotemBar Forever">
 </p>
 
 <h1 align="center">FloTotemBar Forever</h1>
@@ -33,25 +33,25 @@ Originally created by **Floraline** (MPL 2.0). Maintained for WoW Forever by **p
 ## Screenshots
 
 ### Shaman — Totem Bar
-![Shaman Totem Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/shaman-totem-bar.png)
+![Shaman Totem Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/screenshots/shaman-totem-bar.png)
 
 ### Hunter — Trap Bar
-![Hunter Trap Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/hunter-trap-bar.png)
+![Hunter Trap Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/screenshots/hunter-trap-bar.png)
 
 ### Paladin — Seal Bar
-![Paladin Seal Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/paladin-seal-bar.png)
+![Paladin Seal Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/screenshots/paladin-seal-bar.png)
 
 ### Settings
-<img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/settings.jpg" width="560" alt="The FloTotemBar settings panel, as a Shaman">
+<img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/screenshots/settings.jpg" width="560" alt="The FloTotemBar settings panel, as a Shaman">
 
 ### Context Menu
-![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/context-menu.png)
+![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar-Forever/main/media/screenshots/context-menu.png)
 
 ## Help and bug reports
 
 The settings panel (*Esc > Options > AddOns > FloTotemBar Forever*) shows the installed version in its
 header, and its **Help and bug reports** button opens this repository's address, ready to copy. Please
-[open an issue](https://github.com/paradosi/FloTotemBar-Classic/issues) for problems.
+[open an issue](https://github.com/paradosi/FloTotemBar-Forever/issues) for problems.
 
 ## Slash Commands
 
@@ -81,7 +81,7 @@ header, and its **Help and bug reports** button opens this repository's address,
 
 ## Optional Dependencies
 
-- **[FloAspectBar Forever](https://github.com/paradosi/FloAspectBar-Classic)** — Hunter aspect bar. Not required: each addon ships its own copy of FloLib. When both are installed, the trap bar docks to the right of the aspect bar
+- **[FloAspectBar Forever](https://github.com/paradosi/FloAspectBar-Forever)** — Hunter aspect bar. Not required: each addon ships its own copy of FloLib. When both are installed, the trap bar docks to the right of the aspect bar
 - **Masque** — Button skinning support
 
 ## Compatibility

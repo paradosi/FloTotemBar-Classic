@@ -7,7 +7,7 @@
 ## AddonCompartmentFunc: FloTotemBar_OnMinimapClick
 ## Category-enUS: Shaman
 ## OptionalDeps: Masque, FloAspectBar
-## X-Website: https://github.com/paradosi/FloTotemBar-Classic
+## X-Website: https://github.com/paradosi/FloTotemBar-Forever
 ## X-Wago-ID: L6J9BQNv
 ## X-Curse-Project-ID: 1461030
 ## SavedVariablesPerCharacter: FLOTOTEMBAR_OPTIONS

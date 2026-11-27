@@ -9,7 +9,7 @@
 -- loaded here, so their setters are recorded rather than run. Widget stubs
 -- come from ForeverQuestItemBar's tests/smoke.lua.
 --
---   cd FloTotemBar-Classic && lua5.1 tests/options.lua
+--   cd FloTotemBar-Forever && lua5.1 tests/options.lua
 
 local failures = 0
 local function check(cond, msg)
@@ -144,7 +144,7 @@ function methods.SetLabel(self, t) self.label.text = t:upper() end
 C_AddOns = {
     GetAddOnMetadata = function(_, field)
         if field == "Version" then return "9.9.9" end
-        if field == "X-Website" then return "https://github.com/paradosi/FloTotemBar-Classic" end
+        if field == "X-Website" then return "https://github.com/paradosi/FloTotemBar-Forever" end
     end,
 }
 local opened
