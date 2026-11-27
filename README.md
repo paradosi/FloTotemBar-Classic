@@ -1,12 +1,12 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png" width="200" alt="FloTotemBar">
+  <img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png" width="200" alt="FloTotemBar Forever">
 </p>
 
-<h1 align="center">FloTotemBar — Classic</h1>
+<h1 align="center">FloTotemBar Forever</h1>
 
 Totem, trap, and seal bar addon for **WoW Forever**. Provides class-specific action bars with cooldown timers and keybinding support for **Shamans**, **Hunters**, and **Paladins**.
 
-Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-Dreamscythe**.
+Originally created by **Floraline** (MPL 2.0). Maintained for WoW Forever by **paradosi-Dreamscythe**.
 
 ![WoW Forever: 16001](https://img.shields.io/badge/WoW_Forever-16001-purple)
 
@@ -26,7 +26,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 - **Show/hide borders** — Toggle bar borders via right-click menu
 - **Per-spell visibility** — Hide spells you don't use
 - **Scalable** — Adjust bar scale in the settings or via slash command
-- **Settings panel** — in the same look as the other WoW Forever addons (navy, gold, two columns). Shamans pick the bars' layout there too. Esc > Options > AddOns > FloTotemBar, or **Options...** in a bar's right-click menu
+- **Settings panel** — in the same look as the other WoW Forever addons (navy, gold, two columns). Shamans pick the bars' layout there too. Esc > Options > AddOns > FloTotemBar Forever, or **Options...** in a bar's right-click menu
 - **Minimap button** — Left-click for settings, right-click to lock/unlock the bars, drag to move it; can be turned off (WoW Forever also lists the addon in the addon compartment)
 - **Masque support** — Optional button skinning with Masque
 
@@ -49,7 +49,7 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 
 ## Help and bug reports
 
-The settings panel (*Esc > Options > AddOns > FloTotemBar*) shows the installed version in its
+The settings panel (*Esc > Options > AddOns > FloTotemBar Forever*) shows the installed version in its
 header, and its **Help and bug reports** button opens this repository's address, ready to copy. Please
 [open an issue](https://github.com/paradosi/FloTotemBar-Classic/issues) for problems.
 
@@ -73,7 +73,7 @@ header, and its **Help and bug reports** button opens this repository's address,
 
 ## Installation
 
-1. Download and extract to WoW Forever's AddOns folder: `_forever_/Interface/AddOns/FloTotemBar/`
+1. Download and extract to WoW Forever's AddOns folder: `_forever_/Interface/AddOns/FloTotemBar/` (the folder keeps its old name, so your settings carry over)
 
 2. Log in on a Shaman, Hunter, or Paladin character
 3. The bar appears automatically above your action bars

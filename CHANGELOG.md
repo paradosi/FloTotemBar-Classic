@@ -4,6 +4,11 @@ All notable changes to FloTotemBar-Classic will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
+## [Unreleased]
+
+### Changed
+- Renamed FloTotemBar Forever. The AddOns folder is still `FloTotemBar`, so your settings carry over
+
 ## [1.6.1] - 2026-11-27
 
 ### Changed

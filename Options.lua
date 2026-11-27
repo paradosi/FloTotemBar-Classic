@@ -105,7 +105,7 @@ local function MinimapTooltip(tooltip)
 
 	local bar = PrimaryBar();
 	local unlocked = bar and bar.settings.position == "unlock";
-	tooltip:AddLine("FloTotemBar");
+	tooltip:AddLine("FloTotemBar Forever");
 	tooltip:AddLine("Left-click: settings", 1, 1, 1);
 	tooltip:AddLine(unlocked and "Right-click: lock the bars" or "Right-click: unlock the bars to move them", 1, 1, 1);
 	tooltip:AddLine("Drag: move this button", 1, 1, 1);
@@ -166,7 +166,7 @@ function FloTotemBar_InitOptions()
 
 	local panel, host, fit = W.Panel({
 		name = "FloTotemBarOptions",
-		title = "FloTotemBar",
+		title = "FloTotemBar Forever",
 		sub = "totems, traps and seals on bars with timers  ·  originally by Floraline",
 		logo = ICON,
 		version = VERSION,

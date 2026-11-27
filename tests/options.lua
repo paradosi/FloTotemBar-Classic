@@ -234,7 +234,7 @@ Load("SHAMAN")
 FloBarPRIMARY = Bar("EARTH", { "Stoneskin Totem", "Earthbind Totem" })
 Bar("FIRE", { "Searing Totem" }); Bar("WATER", { "Healing Stream Totem" }); Bar("AIR", { "Windfury Totem" })
 FloTotemBar_InitOptions()
-check(Settings.category and Settings.category.name == "FloTotemBar", "shaman: panel registered")
+check(Settings.category and Settings.category.name == "FloTotemBar Forever", "shaman: panel registered")
 FloTotemBarOptions:Show()
 local checks, buttons, sliders = Controls(FloTotemBarOptions)
 

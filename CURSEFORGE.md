@@ -1,4 +1,4 @@
-![FloTotemBar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png)
+![FloTotemBar Forever](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/art/logo_400.png)
 
 **Totem, trap and seal bars with timers, made for WoW Forever.**
 
@@ -19,7 +19,7 @@ Shamans get a bar per element, hunters a trap bar, paladins a seal bar: clickabl
 - **Where you want it.** Automatic (above your action bars), locked, or unlocked to drag anywhere.
 - **Your look.** Background colour and opacity, borders, scale from 50% to 200%, optional Masque skins.
 - **Hide Blizzard's own totem bar** if you'd rather use these (Shaman).
-- **Settings panel** in the same navy-and-gold look as the author's other WoW Forever addons: Esc > Options > AddOns > FloTotemBar, or **Options...** in a bar's right-click menu.
+- **Settings panel** in the same navy-and-gold look as the author's other WoW Forever addons: Esc > Options > AddOns > FloTotemBar Forever, or **Options...** in a bar's right-click menu.
 - **Minimap button.** Left-click for settings, right-click to lock or unlock, drag to move it. It can be turned off; the addon is also in the addon compartment.
 
 ![The settings panel, as a Shaman](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/settings.jpg)
