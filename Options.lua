@@ -12,6 +12,12 @@
 -- touches secure buttons and is refused in combat.
 -------------------------------------------------------------------------------
 
+-- The panel is in wowdb.dev's look (Theme.lua and Widgets.lua, shared with the
+-- other Forever addons; 2026-11-27). It reads the live options each time it
+-- opens; anything refused in combat springs back.
+local _, ns = ...;
+local W = ns.W;
+
 local category;
 local minimapButton;
 
@@ -19,34 +25,10 @@ local minimapButton;
 local VERSION = C_AddOns.GetAddOnMetadata("FloTotemBar", "Version") or "?";
 local WEBSITE = C_AddOns.GetAddOnMetadata("FloTotemBar", "X-Website");
 
--- Addons can't open a browser, so the support link is shown selected in an
--- edit box for Ctrl+C. Typing in the box puts the link back.
-StaticPopupDialogs["FLOTOTEMBAR_SUPPORT_LINK"] = {
-	text = "FloTotemBar on GitHub: report a problem or ask a question.\nPress Ctrl+C to copy the link.",
-	button1 = CLOSE,
-	hasEditBox = true,
-	editBoxWidth = 340,
-	OnShow = function(dialog, url)
-		local editBox = dialog:GetEditBox();
-		editBox:SetText(url);
-		editBox:HighlightText();
-		editBox:SetFocus();
-	end,
-	EditBoxOnTextChanged = function(editBox, url)
-		if editBox:GetText() ~= url then
-			editBox:SetText(url);
-			editBox:HighlightText();
-		end
-	end,
-	EditBoxOnEnterPressed = function(editBox) editBox:GetParent():Hide(); end,
-	timeout = 0,
-	whileDead = true,
-	hideOnEscape = true,
-};
-
+-- Addons can't open a browser: the link opens selected, for Ctrl+C
 function FloTotemBar_ShowSupportLink()
 	if WEBSITE then
-		StaticPopup_Show("FLOTOTEMBAR_SUPPORT_LINK", nil, nil, WEBSITE);
+		W.CopyDialog("Help and bug reports", WEBSITE);
 	end
 end
 
@@ -172,124 +154,191 @@ function FloTotemBar_InitOptions()
 			ICON, FloTotemBar_OnMinimapClick, MinimapTooltip);
 	end
 
-	if category or not (Settings and Settings.RegisterVerticalLayoutCategory) then
+	if category then
 		return;
 	end
-	local layout;
-	category, layout = Settings.RegisterVerticalLayoutCategory("FloTotemBar");
 
 	-- The active talent group's options, which every bar points at
 	local function Options()
 		return PrimaryBar().globalSettings;
 	end
-	-- Setting names are global to the Settings registry: keep the prefix
-	local function Proxy(key, varType, name, default, get, set)
-		return Settings.RegisterProxySetting(category, "FloTotemBar_"..key, varType, name, default, get, set);
-	end
-	local function Header(text)
-		layout:AddInitializer(CreateSettingsListSectionHeaderInitializer(text));
-	end
 	local isShaman = (FLO_CLASS_NAME == "SHAMAN");
 
-	---- Bars
+	local panel, host, fit = W.Panel({
+		name = "FloTotemBarOptions",
+		title = "FloTotemBar",
+		sub = "totems, traps and seals on bars with timers  ·  originally by Floraline",
+		logo = ICON,
+		version = VERSION,
+	});
+	local COL_W = W.COL_W;
 
-	Header(isShaman and "Bars" or "Bar");
-
-	local function PositionChoices()
-		local list = Settings.CreateControlTextContainer();
-		list:Add("auto", FLOLIB_POSITIONS.auto);
-		list:Add("lock", FLOLIB_POSITIONS.lock);
-		list:Add("unlock", FLOLIB_POSITIONS.unlock);
-		return list:GetData();
+	local function ColumnTop(x)
+		local f = CreateFrame("Frame", nil, host);
+		f:SetSize(1, 1);
+		f:SetPoint("TOPLEFT", host, "TOPLEFT", x, -8);
+		return f;
 	end
-	Settings.CreateDropdown(category, Proxy("position", "string", FLOLIB_POSITION, "auto",
-			function() return PrimaryBar().settings.position; end,
-			function(value) FloTotemBar_ReadCmd(value); end),
-		PositionChoices,
-		"Automatic places the bars above your action bars. Unlocked shows their border so you can drag them; Locked keeps them where you left them."
-			..(isShaman and " The Fire, Water and Air bars follow the Earth bar." or ""));
+	local left, right = ColumnTop(18), ColumnTop(18 + COL_W + 40);
+	local Sync;
 
-	if isShaman then
-		local function LayoutChoices()
-			local list = Settings.CreateControlTextContainer();
-			for _, value in ipairs(FLO_TOTEM_LAYOUTS_ORDER) do
-				list:Add(value, FLO_TOTEM_LAYOUTS[value].label);
-			end
-			return list:GetData();
-		end
-		Settings.CreateDropdown(category, Proxy("layout", "string", FLOLIB_LAYOUT, "1row",
-				function() return Options().barLayout; end,
-				function(value) if NotInCombat() then FloTotemBar_SetLayout(nil, value); end end),
-			LayoutChoices, "How the four totem bars are arranged around the Earth bar.");
-	end
+	---- Left column: the bars
 
-	Settings.CreateCheckbox(category, Proxy("compact", "boolean", "Compact bars", false,
-			function() return Options().compact and true or false; end,
-			function(value) FloTotemBar_SetCompact(value); end),
-		"Show one button per bar: the spell you picked last. Hover it to open the bar's other spells, and click one to cast it and make it the bar's button. Works in combat. /ftb compact also turns it on and off.");
-
-	local scaleOptions = Settings.CreateSliderOptions(0.5, 2, 0.05);
-	scaleOptions:SetLabelFormatter(MinimalSliderWithSteppersMixin.Label.Right, function(value)
-		return string.format("%d%%", math.floor(value * 100 + 0.5));
+	local barSec = W.Section(host, left, 0, isShaman and "Bars" or "Bar");
+	local position = W.Segment(host, barSec, -12, {
+		{ "auto", FLOLIB_POSITIONS.auto }, { "lock", FLOLIB_POSITIONS.lock }, { "unlock", FLOLIB_POSITIONS.unlock },
+	}, function(value)
+		FloTotemBar_ReadCmd(value);
+		Sync();
 	end);
-	Settings.CreateSlider(category, Proxy("scale", "number", "Scale", 1,
-			function() return Options().scale; end,
-			function(value) FloTotemBar_ReadCmd("scale "..value); end),
-		scaleOptions, "Size of the bars.");
+	local positionNote = W.Note(host, position.first, -6, isShaman
+		and "auto sits above your action bars; the others follow Earth"
+		or "auto sits above your action bars; unlocked can be dragged");
+	local below = positionNote;
 
-	Settings.CreateCheckbox(category, Proxy("borders", "boolean", FLOLIB_SHOWBORDERS, true,
-			function() return Options().borders and true or false; end,
-			function(value) FloTotemBar_SetBorders(nil, value); end),
-		"Draw a border and background behind the bars. An unlocked bar always shows one.");
-
+	-- Shaman: how the four bars are arranged, one button per layout
+	local layoutButtons = {};
 	if isShaman then
-		Settings.CreateCheckbox(category, Proxy("hideBlizzard", "boolean", FLOTOTEMBAR_HIDEBLIZZARD, false,
-				function() return FLOTOTEMBAR_OPTIONS.hideBlizzard and true or false; end,
-				function(value) FloTotemBar_ReadCmd(value and "hideblizzard" or "showblizzard"); end),
-			"Hide Blizzard's own totem bar and totem timers. Applied after combat if you change it in combat.");
+		local layoutSec = W.Section(host, positionNote, -18, FLOLIB_LAYOUT);
+		local last = layoutSec;
+		for i, value in ipairs(FLO_TOTEM_LAYOUTS_ORDER) do
+			local b = W.Button(host, FLO_TOTEM_LAYOUTS[value].label, COL_W);
+			b:SetPoint("TOPLEFT", last, "BOTTOMLEFT", 0, i == 1 and -12 or -4);
+			b:SetScript("OnClick", function()
+				if NotInCombat() then
+					FloTotemBar_SetLayout(nil, value);
+				end
+				Sync();
+			end);
+			b.value = value;
+			layoutButtons[i] = b;
+			last = b;
+		end
+		below = last;
 	end
 
-	Settings.CreateCheckbox(category, Proxy("minimap", "boolean", "Show minimap button", true,
-			function() return not FLOTOTEMBAR_OPTIONS.minimap.hide; end,
-			function(value) FloTotemBar_SetMinimapButton(value); end),
-		"Left-click the button for these settings, right-click to lock or unlock the bars, drag it to move it around the minimap. /ftb minimap also turns it on and off.");
+	local scale = W.Slider(host, below, -16, "Scale", 50, 200, 5, 5, "%");
+	scale.onChange = function(value)
+		FloTotemBar_ReadCmd("scale "..(value / 100));
+		Sync();
+	end;
 
-	---- One section per bar: the same switches as Spells in its right-click menu
+	local borders = W.Check(host, scale, -12, FLOLIB_SHOWBORDERS);
+	borders.onChange = function(value)
+		FloTotemBar_SetBorders(nil, value);
+		Sync();
+	end;
+	local compact = W.Check(host, borders, -6, "Compact bars");
+	compact.onChange = function(value)
+		FloTotemBar_SetCompact(value);
+		Sync();
+	end;
+	local compactNote = W.Note(host, compact, -4, "one button per bar; hover it for the rest");
+	below = compactNote;
 
+	local hideBlizzard;
+	if isShaman then
+		hideBlizzard = W.Check(host, compactNote, -10, "Hide Blizzard's totem bar");
+		hideBlizzard.onChange = function(value)
+			FloTotemBar_ReadCmd(value and "hideblizzard" or "showblizzard");
+		end;
+		below = hideBlizzard;
+	end
+
+	local minimap = W.Check(host, below, isShaman and -6 or -10, "Show minimap button");
+	minimap.onChange = function(value)
+		FloTotemBar_SetMinimapButton(value);
+	end;
+	local leftEnd = W.Note(host, minimap, -4, "left-click: settings  ·  right-click: lock or unlock");
+
+	---- Right column: one section per bar, the bar menu's Spells
+
+	local spellChecks = {};
+	local last, first = right, true;
 	for _, k in ipairs(BAR_ORDER) do
 		local bar = _G["FloBar"..k];
 		if bar and bar.settings and bar.availableSpells then
-			Header(BAR_TITLES[k]);
+			last = W.Section(host, last, first and 0 or -18, BAR_TITLES[k]);
+			first = false;
 			for i, spell in ipairs(bar.availableSpells) do
 				local name = spell.name or C_Spell.GetSpellName(spell.id) or ("Spell "..spell.id);
-				Settings.CreateCheckbox(category, Proxy(k.."_spell"..spell.id, "boolean", name, true,
-						function() return not bar.settings.hiddenSpells[i]; end,
-						function(value)
-							local shown = not bar.settings.hiddenSpells[i];
-							if shown ~= value and NotInCombat() then
-								FloLib_ToggleSpell(nil, bar, i);
-							end
-						end),
-					"Show this spell on the bar. Spells you have not learned yet appear once you learn them.");
+				local check = W.Check(host, last, i == 1 and -10 or -6, name);
+				check.onChange = function(value)
+					local shown = not bar.settings.hiddenSpells[i];
+					if shown ~= value and NotInCombat() then
+						FloLib_ToggleSpell(nil, bar, i);
+					end
+					Sync();
+				end;
+				table.insert(spellChecks, { check = check, bar = bar, idx = i });
+				last = check;
 			end
 		end
 	end
+	local rightEnd = W.Note(host, last, -6, "spells you learn later appear on the bar by themselves");
 
-	---- Reset
+	---- Footer: reset, help, the slash command
 
-	Header("Reset");
-	layout:AddInitializer(CreateSettingsButtonInitializer("Reset all settings", "Reset", function()
-		FloLib_ResetAddon("FloTotemBar");
-	end, "Put every FloTotemBar setting back to its default. The interface reloads.", true));
-
-	---- About
-
-	Header("Version "..VERSION);
-	if WEBSITE then
-		layout:AddInitializer(CreateSettingsButtonInitializer("Help and bug reports", "GitHub link",
-			FloTotemBar_ShowSupportLink,
-			"Show the link to the addon's GitHub page, where you can report a problem or ask a question.", true));
+	-- A hairline under whichever column ends lower (measured on show)
+	local foot = host:CreateTexture(nil, "BORDER");
+	foot:SetColorTexture(1, 1, 1, 0.06);
+	foot:SetHeight(1);
+	foot:SetWidth(COL_W * 2 + 40);
+	local function PlaceFoot()
+		local a, b = leftEnd:GetBottom(), rightEnd:GetBottom();
+		local lower = (a and b and a < b) and leftEnd or rightEnd;
+		foot:ClearAllPoints();
+		foot:SetPoint("TOP", lower, "BOTTOM", 0, -18);
+		foot:SetPoint("LEFT", host, "LEFT", 18, 0);
 	end
+	PlaceFoot();
 
+	local reset = W.Button(host, "Reset all settings", 150);
+	reset:SetPoint("TOPLEFT", foot, "BOTTOMLEFT", 0, -12);
+	reset:SetScript("OnClick", function(self)
+		-- Two clicks: it wipes every setting and reloads the interface
+		if self.armed then
+			FloLib_ResetAddon("FloTotemBar");
+			return;
+		end
+		self.armed = true;
+		self:SetLabel("Click again to reset");
+		C_Timer.After(3, function()
+			self.armed = nil;
+			self:SetLabel("Reset all settings");
+		end);
+	end);
+
+	local help = W.Button(host, "Help and bug reports", 170);
+	help:SetPoint("LEFT", reset, "RIGHT", 10, 0);
+	help:SetScript("OnClick", FloTotemBar_ShowSupportLink);
+	help:SetShown(WEBSITE ~= nil);
+
+	local hint = W.Note(host, reset, -10, "/ftb for commands  ·  right-click a bar for its menu");
+
+	Sync = function()
+		local options = Options();
+		position:Set(PrimaryBar().settings.position);
+		for _, b in ipairs(layoutButtons) do
+			b:SetSelected(b.value == options.barLayout);
+		end
+		scale:SetValue(math.floor(options.scale * 100 + 0.5));
+		borders:SetChecked(options.borders);
+		compact:SetChecked(options.compact);
+		if hideBlizzard then
+			hideBlizzard:SetChecked(FLOTOTEMBAR_OPTIONS.hideBlizzard);
+		end
+		minimap:SetChecked(not FLOTOTEMBAR_OPTIONS.minimap.hide);
+		for _, s in ipairs(spellChecks) do
+			s.check:SetChecked(not s.bar.settings.hiddenSpells[s.idx]);
+		end
+	end;
+	panel:SetScript("OnShow", function()
+		Sync();
+		PlaceFoot();
+		fit(hint);
+	end);
+
+	category = Settings.RegisterCanvasLayoutCategory(panel, panel.name);
 	Settings.RegisterAddOnCategory(category);
 end

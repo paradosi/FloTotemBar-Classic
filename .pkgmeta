@@ -13,3 +13,4 @@ ignore:
   - .luacheckrc
   - media/art
   - media/screenshots
+  - tests

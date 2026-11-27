@@ -11,5 +11,7 @@
 ## X-Wago-ID: L6J9BQNv
 ## X-Curse-Project-ID: 1461030
 ## SavedVariablesPerCharacter: FLOTOTEMBAR_OPTIONS
+Theme.lua
+Widgets.lua
 FloLib.xml
 FloTotemBar.xml

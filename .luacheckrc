@@ -23,14 +23,14 @@ ignore = {
 -- WoW globals whose fields the addon writes (luacheck's stock lua51 std wrongly
 -- treats these as read-only).
 globals = {
-	"SlashCmdList", "StaticPopupDialogs", "GameTooltip",
+	"SlashCmdList", "StaticPopupDialogs", "UISpecialFrames", "GameTooltip",
 }
 
 -- WoW API surface actually used by this addon. Listed as read-only so a typo in
 -- an API name still surfaces as an undefined-global warning.
 read_globals = {
 	-- namespaces / tables
-	"C_Spell", "C_AddOns", "CLOSE", "C_CombatLog", "C_UnitAuras", "C_Secrets", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
+	"C_Spell", "C_AddOns", "CLOSE", "C_Timer", "CreateColor", "PlaySound", "SOUNDKIT", "tinsert", "C_CombatLog", "C_UnitAuras", "C_Secrets", "string", "bit", "math", "table", "LibStub", "BOOKTYPE_SPELL",
 	-- frames / UI globals
 	"UIParent", "MainMenuBar", "MainActionBar", "UIParent_ManageFramePositions", "VehicleMenuBar", "ERR_NOT_IN_COMBAT",
 	"MultiBarBottomLeft", "MultiBarBottomRight",
