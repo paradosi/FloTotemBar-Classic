@@ -22,6 +22,8 @@ Shamans get a bar per element, hunters a trap bar, paladins a seal bar: clickabl
 - **Settings panel** in the same navy-and-gold look as the author's other WoW Forever addons: Esc > Options > AddOns > FloTotemBar, or **Options...** in a bar's right-click menu.
 - **Minimap button.** Left-click for settings, right-click to lock or unlock, drag to move it. It can be turned off; the addon is also in the addon compartment.
 
+![The settings panel, as a Shaman](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/settings.jpg)
+
 ![Hunter trap bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/hunter-trap-bar.png)
 
 ![Paladin seal bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/paladin-seal-bar.png)

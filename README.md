@@ -41,6 +41,9 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 ### Paladin — Seal Bar
 ![Paladin Seal Bar](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/paladin-seal-bar.png)
 
+### Settings
+<img src="https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/settings.jpg" width="560" alt="The FloTotemBar settings panel, as a Shaman">
+
 ### Context Menu
 ![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/context-menu.png)
 
