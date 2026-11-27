@@ -272,7 +272,7 @@ local reset = buttons["RESET ALL SETTINGS"]
 reset:Click(); reset:Click()
 check(Last()[1] == "ResetAddon" and Last()[2] == "FloTotemBar", "shaman: reset after two clicks")
 buttons["HELP AND BUG REPORTS"]:Click()
-check(FloTotemBarCopyDialog.shown and FloTotemBarCopyDialog.box.text:find("FloTotemBar%-Classic"), "help opens the link")
+check(FloTotemBarCopyDialog.shown and FloTotemBarCopyDialog.box.text:find("FloTotemBar%-Forever"), "help opens the link")
 
 ---- Hunter
 
