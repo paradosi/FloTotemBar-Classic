@@ -2,11 +2,12 @@
 ## Title: FloTotemBar
 ## Author: paradosi-Dreamscythe
 ## Notes: Totem, trap, and seal bars with timers. Originally by Floraline.
-## Version: 1.4.0
+## Version: 1.5.0
 ## IconTexture: Interface\AddOns\FloTotemBar\media\textures\tauren_totem_64x64
 ## AddonCompartmentFunc: FloTotemBar_OnMinimapClick
 ## Category-enUS: Shaman
 ## OptionalDeps: Masque, FloAspectBar
+## X-Website: https://github.com/paradosi/FloTotemBar-Classic
 ## X-Wago-ID: L6J9BQNv
 ## X-Curse-Project-ID: 1461030
 ## SavedVariablesPerCharacter: FLOTOTEMBAR_OPTIONS

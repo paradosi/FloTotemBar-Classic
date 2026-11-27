@@ -44,6 +44,12 @@ Originally created by **Floraline** (MPL 2.0). Ported to Classic by **paradosi-D
 ### Context Menu
 ![Context Menu](https://raw.githubusercontent.com/paradosi/FloTotemBar-Classic/main/media/screenshots/context-menu.png)
 
+## Help and bug reports
+
+The bottom of the settings panel (*Esc > Options > AddOns > FloTotemBar*) shows the installed version
+and a **GitHub link** button with this repository's address ready to copy. Please
+[open an issue](https://github.com/paradosi/FloTotemBar-Classic/issues) for problems.
+
 ## Slash Commands
 
 | Command | Description |
