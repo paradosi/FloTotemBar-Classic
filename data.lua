@@ -22,16 +22,16 @@ FLO_TOTEM_SPELLS = {
 			{ id = 5730, duration = 15 },   -- Stoneclaw Totem
 			{ id = 8075, duration = 120 },  -- Strength of Earth Totem
 			{ id = 8143, duration = 120 },  -- Tremor Totem
-			{ id = 2062, duration = 120 },  -- Earth Elemental Totem
+			{ id = 2062, duration = 120, notOnForever = true },  -- Earth Elemental Totem (TBC)
 		},
 		["FIRE"] = {
 			{ id = 3599, duration = 30 },   -- Searing Totem
-			{ id = 1535, duration = 5 },    -- Fire Nova Totem
+			{ id = 1535, duration = 5, notOnForever = true },    -- Fire Nova Totem (not on Forever)
 			{ id = 8181, duration = 120 },  -- Frost Resistance Totem
 			{ id = 8190, duration = 21 },   -- Magma Totem (Era: 20)
 			{ id = 8227, duration = 120 },  -- Flametongue Totem
 			{ id = 30706, duration = 120, notOnForever = true }, -- Totem of Wrath (TBC, Elemental talent)
-			{ id = 2894, duration = 120 },  -- Fire Elemental Totem
+			{ id = 2894, duration = 120, notOnForever = true },  -- Fire Elemental Totem (TBC)
 		},
 		["WATER"] = {
 			{ id = 5394, duration = 120 },  -- Healing Stream Totem (Era: 60)
@@ -48,7 +48,7 @@ FLO_TOTEM_SPELLS = {
 			{ id = 6495, duration = 300 },  -- Sentry Totem
 			{ id = 15107, duration = 120 }, -- Windwall Totem
 			{ id = 8835, duration = 120 },  -- Grace of Air Totem
-			{ id = 25908, duration = 120 }, -- Tranquil Air Totem
+			{ id = 25908, duration = 120, notOnForever = true }, -- Tranquil Air Totem (not on Forever)
 			{ id = 3738, duration = 120, notOnForever = true },  -- Wrath of Air Totem (TBC)
 		}
 	},

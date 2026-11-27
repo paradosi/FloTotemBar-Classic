@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ### Changed
 - New icon, in the same style as the other WoW Forever addons, in the AddOns list, the settings panel and the minimap button
+- Earth Elemental, Fire Elemental, Fire Nova and Tranquil Air Totem no longer show as "Spell 2062" and so on in the settings: WoW Forever doesn't have them
 
 ## [1.6.0] - 2026-11-27
 
